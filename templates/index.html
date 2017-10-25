@@ -1,0 +1,115 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Demo App
+{% endblock %}
+
+
+{% block styles %}
+{{super()}}
+
+<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+
+{% endblock %}
+
+
+
+
+{% block content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Takeit!</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+
+      <div class="starter-template">
+        <h1>TAKEIT HOMEPAGE</h1>
+        <p class="lead">THIS IS THE HOME PAGE USER WILL SEE AFTER LOG IN<br> BELOW ARE THE PUBLIC EVENT</p>
+      <div class="row">
+          <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="http://placehold.it/400x300" alt="...">
+              <div class="caption">
+                <h3>EVENT NAME</h3>
+                <p>EVENT DESCRIPTION</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+                    <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="http://placehold.it/400x300" alt="...">
+              <div class="caption">
+                <h3>EVENT NAME</h3>
+                <p>EVENT DESCRIPTION</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+                    <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="http://placehold.it/400x300" alt="...">
+              <div class="caption">
+                <h3>EVENT NAME</h3>
+                <p>EVENT DESCRIPTION</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+                    <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="http://placehold.it/400x300" alt="...">
+              <div class="caption">
+                <h3>EVENT NAME</h3>
+                <p>EVENT DESCRIPTION</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+                    <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="http://placehold.it/400x300" alt="...">
+              <div class="caption">
+                <h3>EVENT NAME</h3>
+                <p>EVENT DESCRIPTION</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+                    <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <img src="http://placehold.it/400x300" alt="...">
+              <div class="caption">
+                <h3>EVENT NAME</h3>
+                <p>EVENT DESCRIPTION</p>
+                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+              </div>
+            </div>
+          </div>
+
+      </div>
+      </div>
+
+
+
+
+    </div><!-- /.container -->
+{% endblock %}
