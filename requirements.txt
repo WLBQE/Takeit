@@ -3,6 +3,7 @@ Flask-Bootstrap
 Flask-Login
 Flask-SQLAlchemy
 Flask-WTF
+flask-mysql
 Jinja2
 MarkupSafe
 SQLAlchemy
@@ -12,8 +13,8 @@ click
 dominate
 itsdangerous
 pip
-pysqlite
 setuptools
 visitor
 wheel
-wsgiref
+bcrypt
+passlib

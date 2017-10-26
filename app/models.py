@@ -1,8 +1,99 @@
 from app import db
+from passlib.hash import bcrypt
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(15), unique=True)
-    email = db.Column(db.String(50), unique=True)
-    password = db.Column(db.String(80))
+class User:
+    def __init__(self, user_id=None):
+        self.id = user_id;
+
+    def find(self):
+        if self.id is None:
+            return False
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM Users WHERE id={}".format(self.id))
+        data = cursor.fetchone()
+        conn.close()
+        return data is not None
+
+    def authenticate(self, username, password):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM Users WHERE username='{}' AND password='{}'"
+                       .format(username, bcrypt.encrypt(password)))
+        data = cursor.fetchone()
+        conn.close()
+        if data is None:
+            return None
+        self.id = data[id]
+        return data[id]
+
+    def register(self, event_id):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
+        conn.commit()
+        conn.close()
+
+    def get_friends(self):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id2 FROM Friends WHERE id1={}".format(self.id))
+        data = cursor.fetchall()
+        conn.close()
+        return data
+
+    def get_friends_events(self):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM Events WHERE creator IN (SELECT id2 FROM Friends WHERE id1={})".format(self.id))
+        data = cursor.fetchall()
+        conn.close()
+        return data
+
+    def get_events_created(self):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM Events WHERE creator={}".format(self.id))
+        data = cursor.fetchall()
+        conn.close()
+        return data
+
+    def get_events_participated(self):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT event FROM Regs WHERE user={})".format(self.id))
+        data = cursor.fetchall()
+        conn.close()
+        return data
+
+
+class Event(db.Model):
+    def __init__(self, event_id=None):
+        self.id = event_id
+
+    def find(self):
+        if self.id is None:
+            return False
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM Events WHERE id={}".format(self.id))
+        data = cursor.fetchone()
+        conn.close()
+        return data is not None
+
+    def create(self, creator_id, event_name, event_description, event_location, start_time, end_time):
+        creator = User(creator_id)
+        if not creator.find():
+            return None
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO Events (name, start_time, end_time, location, description, creator)
+            VALUES ('{}', '{}', '{}', '{}', '{}', {}})
+            '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
+        self.id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        creator.register(self.id)
+        return self.id

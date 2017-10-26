@@ -5,6 +5,8 @@ from .forms import LoginForm
 from .forms import RegisterForm
 from .models import User
 
+login_manager = LoginManager()
+
 
 @app.route('/')
 @app.route('/<user>')
@@ -38,16 +40,11 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/profile/<name>')
-def profile(name):
-    return render_template('profile.html', name = name)
+@app.route('/profile/<id>')
+def profile(id):
+    return render_template('profile.html', name=id)
 
 
-@app.route('/test')
-def test():
-    return render_template('test.html')
-
-
-@app.route('/event_detail')
+@app.route('/event_detail/<id>')
 def event_detail():
     return render_template('event_detail.html')
