@@ -1,11 +1,9 @@
 from flask import render_template
-from flask_bootstrap import Bootstrap
+
 from app import app, db
 from .forms import LoginForm
 from .forms import RegisterForm
 from .models import User
-
-login_manager = LoginManager()
 
 
 @app.route('/')
@@ -28,14 +26,9 @@ def signup():
     form = RegisterForm()
 
     if form.validate_on_submit():
-        new_user = User(username=form.username.data, email=form.email.data, password=form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-    #     hashed_password = generate_password_hash(form.password.data, method='sha256')
-    #     new_user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-    #     db.session.add(new_user)
-    #     db.session.commit()
-        return '<h1>New user has been created!</h1>'
+        if User().create(form.email.data, form.password.data, form.username.data) is not None:
+            return '<h1>New user has been created!</h1>'
+        return '<h1>Failed to create new user!</h1>'
 
     return render_template('signup.html', form=form)
 

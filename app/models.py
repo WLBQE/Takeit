@@ -1,10 +1,23 @@
-from app import db
 from passlib.hash import bcrypt
+
+from app import db
 
 
 class User:
     def __init__(self, user_id=None):
         self.id = user_id;
+
+    def create(self, email, password, username):
+        if self.id is not None:
+            return None
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO Users(email, password, username) VALUES('{}', '{}', '{}')"
+                       .format(email, bcrypt.encrypt(password), username))
+        self.id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        return self.id
 
     def find(self):
         if self.id is None:
@@ -68,7 +81,7 @@ class User:
         return data
 
 
-class Event(db.Model):
+class Event:
     def __init__(self, event_id=None):
         self.id = event_id
 

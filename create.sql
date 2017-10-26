@@ -3,10 +3,11 @@ CREATE DATABASE TakeIt;
 
 CREATE TABLE TakeIt.Users (
   id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(64) NOT NULL,
+  email VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
-  name VARCHAR(64) NOT NULL,
+  username VARCHAR(64) NOT NULL,
   PRIMARY KEY(id),
+  UNIQUE(email),
   UNIQUE(username)
 );
 
