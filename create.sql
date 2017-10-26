@@ -7,7 +7,7 @@ CREATE TABLE TakeIt.Users (
   password VARCHAR(64) NOT NULL,
   name VARCHAR(64) NOT NULL,
   PRIMARY KEY(id),
-  UNIQUE(id, username)
+  UNIQUE(username)
 );
 
 CREATE TABLE TakeIt.Events (
@@ -23,10 +23,12 @@ CREATE TABLE TakeIt.Events (
 
 CREATE TABLE TakeIt.Friends (
   id1 INT NOT NULL,
-  id2 INT NOT NULL
+  id2 INT NOT NULL,
+  CONSTRAINT UNIQUE(id1, id2)
 );
 
 CREATE TABLE TakeIt.Regs (
   event INT NOT NULL,
-  user INT NOT NULL
+  user INT NOT NULL,
+  CONSTRAINT UNIQUE(event, user)
 );
