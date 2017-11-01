@@ -32,14 +32,16 @@ class User:
     def authenticate(self, username, password):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM Users WHERE username='{}' AND password='{}'"
-                       .format(username, bcrypt.encrypt(password)))
+        cursor.execute("SELECT id, password FROM Users WHERE username='{}'".format(username))
         data = cursor.fetchone()
         conn.close()
         if data is None:
             return None
-        self.id = data[id]
-        return data[id]
+        password_encrypted = data[1]
+        if not bcrypt.verify(password, password_encrypted):
+            return None
+        self.id = data[0]
+        return data[0]
 
     def register(self, event_id):
         conn = db.connect()
