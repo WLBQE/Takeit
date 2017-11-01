@@ -29,10 +29,10 @@ class User:
         conn.close()
         return data
 
-    def authenticate(self, username, password):
+    def authenticate(self, email, password):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, password FROM Users WHERE username='{}'".format(username))
+        cursor.execute("SELECT username, password FROM Users WHERE email='{}'".format(email))
         data = cursor.fetchone()
         conn.close()
         if data is None:
