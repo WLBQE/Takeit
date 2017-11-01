@@ -29,7 +29,7 @@ class User:
         conn.close()
         return data is not None
 
-    def getDetails(self):
+    def get_details(self):
         if not self.find():
             return None
         conn = db.connect()
@@ -121,7 +121,7 @@ class Event:
         creator.register(self.id)
         return self.id
 
-    def getDetails(self):
+    def get_details(self):
         if not self.find():
             return None
         conn = db.connect()
