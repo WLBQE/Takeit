@@ -5,7 +5,7 @@ from app import db
 
 class User:
     def __init__(self, user_id=None):
-        self.id = user_id;
+        self.id = user_id
 
     def create(self, email, password, username):
         if self.id is not None:
