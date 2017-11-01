@@ -5,4 +5,4 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 TEST = True
 
 CSRF_ENABLED = True
-SECRET_KEY = 'secret'
+SECRET_KEY = os.urandom(24)
