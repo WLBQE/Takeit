@@ -16,7 +16,7 @@ def index(user=None):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
+        return '<h1>' + form.email.data + ' ' + form.password.data + '</h1>'
 
     return render_template('login.html', form=form)
 

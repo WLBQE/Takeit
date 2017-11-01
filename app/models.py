@@ -69,7 +69,7 @@ class User:
     def get_friends_events(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM Events WHERE creator IN (SELECT id2 FROM Friends WHERE id1={})".format(self.id))
+        cursor.execute("SELECT * FROM Events WHERE creator IN (SELECT id2 FROM Friends WHERE id1={})".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
