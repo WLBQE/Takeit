@@ -1,4 +1,5 @@
 from passlib.hash import bcrypt
+from pymysql.err import IntegrityError
 
 from app import db
 
@@ -12,19 +13,26 @@ class User:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO Users(email, password, username) VALUES('{}', '{}', '{}')"
-                       .format(email, bcrypt.encrypt(password), username))
+        try:
+            cursor.execute("INSERT INTO Users(email, password, username) VALUES('{}', '{}', '{}')"
+                           .format(email, bcrypt.encrypt(password), username))
+        except IntegrityError:
+            conn.close()
+            return None
         self.id = cursor.lastrowid
         conn.commit()
         conn.close()
         return self.id
 
-    def find(self):
+    def find(self, email=None):
         if self.id is None:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Users WHERE id={}".format(self.id))
+        if email is None:
+            cursor.execute("SELECT * FROM Users WHERE id={}".format(self.id))
+        else:
+            cursor.execute("SELECT * FROM Users WHERE email={}".format(email))
         data = cursor.fetchone()
         conn.close()
         return data

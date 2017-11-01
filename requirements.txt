@@ -18,3 +18,4 @@ visitor
 wheel
 bcrypt
 passlib
+pymysql
