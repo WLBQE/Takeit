@@ -8,11 +8,13 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember me')
 
+
 class RegisterForm(FlaskForm):
     email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=50)])
     username = StringField('username', validators=[InputRequired(), Length(message='Length should be between 4 and 15'
                                                                                    ' characters', min=4, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=32)])
+
 
 '''yyyy-mm-dd hh:mm'''
 class EventDetailForm(FlaskForm):

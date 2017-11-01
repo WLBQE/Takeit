@@ -103,7 +103,7 @@ class Event:
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO Events (name, start_time, end_time, location, description, creator)
-            VALUES ('{}', '{}', '{}', '{}', '{}', {}})
+            VALUES ('{}', '{}', '{}', '{}', '{}', '{}')
             '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
         self.id = cursor.lastrowid
         conn.commit()
