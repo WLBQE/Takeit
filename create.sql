@@ -7,15 +7,14 @@ CREATE TABLE TakeIt.Users (
   password VARCHAR(64) NOT NULL,
   username VARCHAR(64) NOT NULL,
   PRIMARY KEY(id),
-  UNIQUE(email),
-  UNIQUE(username)
+  UNIQUE(email)
 );
 
 CREATE TABLE TakeIt.Events (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL,
-  start_time DATETIME,
-  end_time DATETIME,
+  start_time VARCHAR(20),
+  end_time VARCHAR(20),
   location TINYTEXT,
   description TEXT,
   creator INT NOT NULL,
