@@ -34,7 +34,7 @@ class User:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Events WHERE id = {}".format(self.id))
+        cursor.execute("SELECT * FROM Users WHERE id = {}".format(self.id))
         data = cursor.fetchone()
         conn.close()
         return data
