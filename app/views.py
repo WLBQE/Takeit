@@ -1,9 +1,8 @@
-from flask import render_template
+from flask import render_template, request
 
 from app import app, db
-from .forms import LoginForm
-from .forms import RegisterForm
-from .models import User
+from .forms import LoginForm, RegisterForm, EventDetailForm
+from .models import User, Event
 
 
 @app.route('/')
@@ -38,6 +37,10 @@ def profile(id):
     return render_template('profile.html', name=id)
 
 
-@app.route('/event_detail/<id>')
-def event_detail():
-    return render_template('event_detail.html')
+@app.route('/event_detail/<int:id>')
+def event_detail(id):
+    event = Event(id).find()
+    if event is None:
+        return '<h1>404 NOT FOUND</h1>'
+    return '{{event.name}}'
+    #return render_template('event_detail.html', event)
