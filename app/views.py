@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session, abort
 import sys
 from app import app, db
 from .forms import LoginForm, RegisterForm, EventDetailForm
@@ -9,7 +9,6 @@ from .models import User, Event
 @app.route('/<username>')
 def index(username=None):
     if 'username' in session:
-        print(session['username'], sys.stderr)
         if session['username'] == username:
             return render_template('index.html', user=username)
     return "You are not logged in <br><a href = '/login'></b>" + \
@@ -33,11 +32,13 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
-
     if form.validate_on_submit():
         if User().create(form.email.data, form.password.data, form.username.data) is not None:
-            return '<h1>New user has been created!</h1>'
-        return '<h1>Failed to create new user!</h1>'
+            username = form.username.data
+            session['username'] = username
+            return redirect('/%s' % username)
+        return "User exist! <br><a href = '/signup'></b>" + \
+               "click here to sign up again</b></a>"
 
     return render_template('signup.html', form=form)
 
@@ -51,6 +52,6 @@ def profile(id):
 def event_detail(id):
     event = Event(id).find()
     if event is None:
-        return '<h1>404 NOT FOUND</h1>'
+        return abort(404)
     return '{{event.name}}'
     #return render_template('event_detail.html', event)
