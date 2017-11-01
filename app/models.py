@@ -21,20 +21,10 @@ class User:
 
     def find(self):
         if self.id is None:
-            return False
-        conn = db.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id FROM Users WHERE id={}".format(self.id))
-        data = cursor.fetchone()
-        conn.close()
-        return data is not None
-
-    def get_details(self):
-        if not self.find():
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Users WHERE id = {}".format(self.id))
+        cursor.execute("SELECT * FROM Users WHERE id={}".format(self.id))
         data = cursor.fetchone()
         conn.close()
         return data
@@ -100,10 +90,10 @@ class Event:
             return False
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM Events WHERE id={}".format(self.id))
+        cursor.execute("SELECT * FROM Events WHERE id={}".format(self.id))
         data = cursor.fetchone()
         conn.close()
-        return data is not None
+        return data
 
     def create(self, creator_id, event_name, event_description, event_location, start_time, end_time):
         creator = User(creator_id)
@@ -120,13 +110,3 @@ class Event:
         conn.close()
         creator.register(self.id)
         return self.id
-
-    def get_details(self):
-        if not self.find():
-            return None
-        conn = db.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Events WHERE id = {}".format(self.id))
-        data = cursor.fetchone()
-        conn.close()
-        return data
