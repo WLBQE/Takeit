@@ -29,6 +29,16 @@ class User:
         conn.close()
         return data is not None
 
+    def getDetails(self):
+        if not self.find():
+            return None
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Events WHERE id = {}".format(self.id))
+        data = cursor.fetchone()
+        conn.close()
+        return data
+
     def authenticate(self, username, password):
         conn = db.connect()
         cursor = conn.cursor()
@@ -110,3 +120,13 @@ class Event:
         conn.close()
         creator.register(self.id)
         return self.id
+
+    def getDetails(self):
+        if not self.find():
+            return None
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Events WHERE id = {}".format(self.id))
+        data = cursor.fetchone()
+        conn.close()
+        return data
