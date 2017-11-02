@@ -16,13 +16,12 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=32)])
 
 
-'''yyyy-mm-dd hh:mm'''
 class EventDetailForm(FlaskForm):
     name = StringField('name', validators=[InputRequired(), Length(message='Length should be between 1 and 64'
                                                                            ' characters', min=1, max=64)])
-    start_date = StringField('start_date', validators=[InputRequired(), Length(message='Format: yyyymmdd',
+    start_date = StringField('start_date', validators=[InputRequired(), Length(message='Format: yyyy-mm-dd',
                                                                                min=8, max=8)])
-    start_time = StringField('start_time', validators=[InputRequired(), Length(message='Format: hhmm', min=4, max=4)])
+    start_time = StringField('start_time', validators=[InputRequired(), Length(message='Format: hh:mm', min=4, max=4)])
     end_date = StringField('end_date', validators=[InputRequired(), Length(message='Length should be between 1 and 64'
                                                                            ' characters', min=1, max=64)])
     end_time = StringField('end_time', validators=[InputRequired(), Length(message='Format: hhmm', min=4, max=4)])
