@@ -79,7 +79,7 @@ def profile(userid):
 def register(eventid):
     userid = session['userid']
     if User(userid).register(eventid) is True:
-        return redirect('/profile/%s' % userid)
+        return redirect('/profile/%d' % userid)
     return redirect('/home')
 
 
