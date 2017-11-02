@@ -58,6 +58,8 @@ def signup():
 
 @app.route('/profile/<int:userid>')
 def profile(userid):
+    if 'userid' not in session:
+        return redirect('/login')
     user = User(userid).find()
     if user is None:
         return abort(404)
@@ -71,9 +73,9 @@ def profile(userid):
             if creator is None:
                 abort(501)
             creator_name_list[creator_id] = creator[3]
-    return render_template('profile.html', user_profile=user, event_created=events_created,
-                           events_participated=events_participated, creators=creator_name_list)
-    return redirect('/login')
+    return render_template('profile.html', current_user=session['userid'], user_profile=user,
+                           event_created=events_created, events_participated=events_participated,
+                           creators=creator_name_list)
 
 
 @app.route('/register/<int:eventid>')
