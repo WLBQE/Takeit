@@ -40,7 +40,7 @@ class User:
     def authenticate(self, email, password):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT username, password FROM Users WHERE email='{}'".format(email))
+        cursor.execute("SELECT id, password FROM Users WHERE email='{}'".format(email))
         data = cursor.fetchone()
         conn.close()
         if data is None:

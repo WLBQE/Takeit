@@ -5,24 +5,24 @@ from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
 
 
-@app.route('/')
 @app.route('/<username>')
 def index(username=None):
     if 'username' in session:
+        print()
         if session['username'] == username:
             return render_template('index.html', user=username)
-    return "You are not logged in <br><a href = '/login'></b>" + \
-        "click here to log in</b></a>"
+    return redirect('/login')
 
 
+@app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        username = User().authenticate(form.email.data, form.password.data)
-        if username is not None:
-            session['username'] = username
-            return redirect('/%s' % username)
+        userid = User().authenticate(form.email.data, form.password.data)
+        if userid is not None:
+            session['username'] = userid
+            return redirect('/%s' % userid)
         else:
             return redirect('/login')
 
@@ -55,3 +55,4 @@ def event_detail(id):
         return abort(404)
     return '{{event.name}}'
     #return render_template('event_detail.html', event)
+
