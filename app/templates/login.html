@@ -20,6 +20,10 @@ Login
         {{ wtf.form_field(form.password) }}
         {{ wtf.form_field(form.remember) }}
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+          <h3>Not Yet have an account? Sign UP NOW</h3>
+{#          <a href="{{ url_for('signup') }}">Logout</a>#}
+          <button class="btn btn-lg btn-primary btn-block" type="button" onclick="window.location.href='{{ url_for( 'signup') }}';">Sign Up</button>
       </form>
 
     </div> <!-- /container -->

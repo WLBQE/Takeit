@@ -53,15 +53,12 @@ Demo App
 {##}
 {#    </div>#}
     <div style="background: transparent !important;" class="jumbotron">
-      <h1>Name of the Event</h1>
+      <h1>{{ event[1] }}</h1>
         <button type="button" class="btn btn-default pull-right" > Register</button>
-      <p>Time and Location</p>
+      <p>{{ event[2] }} and {{ event[4] }}</p>
 
        <hr>
-        <small>EVENT DESCRIPTION Emursive presents Punchdrunk's SLEEP NO MORE in New York City. Shakespeare's fallen hero. A film noir shadow of suspense.
-Since 2000, Punchdrunk has pioneered a game changing form of immersive theatre in which roaming audiences experience epic storytelling inside sensory theatrical worlds. Blending classic texts, physical performance, award-winning design installation and unexpected sites, the company’s infectious format rejects the passive obedience usually expected of audiences.
-
-Lines between space, performer and spectator are constantly shifting. Audiences are invited to rediscover the childlike excitement and anticipation of exploring the unknown and experience a real sense of adventure. Free to encounter the installed environment in an individual imaginative journey, the choice of what to watch and where to go is theirs alone.</small>
+        <small>{{ event[5] }}</small>
 {#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>#}
     </div>
 
