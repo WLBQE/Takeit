@@ -1,8 +1,13 @@
-INSERT INTO TakeIt.Users (email, password, username) VALUES ('xjp@ccp.gov', 'qwer1234', 'Xi Jinipng');
-INSERT INTO TakeIt.Users (email, password, username) VALUES ('lhz@falundafa.org', 'qwer1234', 'Li Hongzhi');
-INSERT INTO TakeIt.Users (email, password, username) VALUES ('haha@zhangzhe.wang', 'qwer1234', 'Jiang Zemin');
-INSERT INTO TakeIt.Users (email, password, username) VALUES ('lxb@anticcp.com', 'qwer1234', 'Liu Xiaobo');
-INSERT INTO TakeIt.Users (email, password, username) VALUES ('wangdan@pku.edu.cn', 'qwer1234', 'Wang Dan');
+INSERT INTO TakeIt.Users (email, password, username)
+  VALUES ('xjp@ccp.gov', '$2b$12$5xlUGbjZvpIhbSynpjM8veyfNtV62wKrqynR3GGEajIi.0DT70.pa', 'Xi Jinipng');
+INSERT INTO TakeIt.Users (email, password, username)
+  VALUES ('lhz@falundafa.org', '$2b$12$y2kh3SchJ8fpY8Z0Q0BSb.FFWYaPzXqkOKhtdNSD5jdCnDLn6PiMC', 'Li Hongzhi');
+INSERT INTO TakeIt.Users (email, password, username)
+  VALUES ('haha@zhangzhe.wang', '$2b$12$zLL7mM9f0GbjlwLIXGdBbOuSj.hOMDJWFVpahUW0AC1RCTrF/9.aa', 'Jiang Zemin');
+INSERT INTO TakeIt.Users (email, password, username)
+  VALUES ('lxb@anticcp.com', '$2b$12$8i.JaIqRff7YIceIZ2pldOHWuS9X1ZVmbfB/jKjOojzxWB4lk6Jma', 'Liu Xiaobo');
+INSERT INTO TakeIt.Users (email, password, username)
+  VALUES ('wangdan@pku.edu.cn', '$2b$12$gR3xq9z5ykSaJa3OFT0YEegTmrlXsZX8zdDxo/rj2G5RpcpaTA3nm', 'Wang Dan');
 
 INSERT INTO TakeIt.Events (name, start_time, end_time, location, description, creator)
     VALUES ('19 Da', '2017-10-01 00:00', '2017-10-01 23:59', 'Renmin Dahuitang 19', 'Ting Dang Zhi Hui 19', 1);
