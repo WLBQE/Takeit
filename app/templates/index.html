@@ -50,7 +50,7 @@ Demo App
 
       <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-              <img src="http://placehold.it/400x300" alt="...">
+{#              <img src="http://placehold.it/400x300" alt="...">#}
               <div class="caption">
 {#                  event_name, event_description, event_location, start_time, end_time#}
                 <h3>{{ item[1] }}</h3>
@@ -58,7 +58,7 @@ Demo App
                   <p>{{ item[3] }}</p>
                   <p>{{ item[4] }}</p>
                   <p>{{ item[5] }}</p>
-                  <p>{{ item[6] }}</p>
+                  <p>{{ creators[ item[6]] }}</p>
 
                 <p><a href="#" class="btn btn-primary" role="button">Register</a>
 {#                    <a href="#" class="btn btn-default" role="button">Event Detail</a></p>#}
