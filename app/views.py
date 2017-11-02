@@ -30,7 +30,10 @@ def login():
 
 
 @app.route('/logout')
-
+def logout():
+    if 'userid' in session:
+        session.pop('userid', None)
+        return redirect('/login')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -72,5 +75,5 @@ def create_event():
             return redirect('/%s' % session['userid'])
         return redirect('/create_event')
 
-    return render_template('create_event.html')
+    return render_template('create_event.html', form=form)
 
