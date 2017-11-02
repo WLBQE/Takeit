@@ -5,7 +5,7 @@ from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
 
 
-@app.route('/<userid>')
+@app.route('/<int:userid>')
 def index(userid=None):
     if 'userid' in session:
         print()
@@ -48,13 +48,17 @@ def profile(id):
     return render_template('profile.html', name=id)
 
 
-@app.route('/event_detail/<int:id>')
-def event_detail(id):
-    event = Event(id).find()
+@app.route('/event_detail/<int:eventid>')
+def event_detail(eventid):
+    event = Event(eventid).find()
     if event is None:
         return abort(404)
     return '{{event.name}}'
     #return render_template('event_detail.html', event)
 
 
-#@app.route('/create_event')
+@app.route('/create_event')
+def create_event():
+    form = EventDetailForm()
+    if form.validate_on_submit():
+
