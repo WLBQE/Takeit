@@ -40,7 +40,7 @@ def login():
 def logout():
     if 'userid' in session:
         session.pop('userid', None)
-        return redirect('/login')
+    return redirect('/login')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -58,6 +58,8 @@ def signup():
 
 @app.route('/profile/<int:userid>')
 def profile(userid):
+    if 'userid' not in session:
+        return redirect('/login')
     user = User(userid).find()
     if user is None:
         return abort(404)
@@ -71,21 +73,26 @@ def profile(userid):
             if creator is None:
                 abort(501)
             creator_name_list[creator_id] = creator[3]
-    return render_template('profile.html', user_profile=user, event_created=events_created,
-                           events_participated=events_participated, creators=creator_name_list)
-    return redirect('/login')
+
+    return render_template('profile.html', current_user=session['userid'], user_profile=user,
+                           event_created=events_created, events_participated=events_participated,
+                           creators=creator_name_list)
 
 
 @app.route('/register/<int:eventid>')
 def register(eventid):
+    if 'userid' not in session:
+        return redirect('/login')
     userid = session['userid']
     if User(userid).register(eventid) is True:
-        return redirect('/profile/%s' % userid)
+        return redirect('/profile/%d' % userid)
     return redirect('/home')
 
 
 @app.route('/event_detail/<int:eventid>')
 def event_detail(eventid):
+    if 'userid' not in session:
+        return redirect('/login')
     event = Event(eventid).find()
     if event is None:
         return abort(404)
@@ -94,10 +101,12 @@ def event_detail(eventid):
 
 @app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
+    if 'userid' not in session:
+        return redirect('/login')
     form = EventDetailForm()
     if form.validate_on_submit():
-        start_time = form.start_date.data + '' + form.start_time.data
-        end_time = form.start_date.data + '' + form.end_time.data
+        start_time = form.start_date.data + ' ' + form.start_time.data
+        end_time = form.start_date.data + ' ' + form.end_time.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         if eventid is not None:

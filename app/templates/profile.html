@@ -1,14 +1,14 @@
 {% extends "bootstrap/base.html" %}
 
 {% block title %}
-Demo App
+    Demo App
 {% endblock %}
 
 
 {% block styles %}
-{{super()}}
+    {{super()}}
 
-<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
 
 {% endblock %}
 
@@ -17,78 +17,78 @@ Demo App
 
 {% block content %}
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Takeit!</a>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Takeit!</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
+                    <li><a href="{{ url_for('profile', userid=current_user) }}">View Profile</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-            <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
-              <li><a href="{{ url_for('profile') }}">View Profile</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
     </nav>
 
     <div class="container">
 
 
 
-      <div class="starter-template">
-        <h1>User Profile</h1>
-        <p class="lead">THIS IS THE HOME PAGE USER WILL SEE AFTER LOG IN<br> BELOW ARE UER PROFILE</p>
-      <div class="row">
+        <div class="starter-template">
+            <h1>User Profile</h1>
+            <p class="lead">THIS IS THE HOME PAGE USER WILL SEE AFTER LOG IN<br> BELOW ARE UER PROFILE</p>
+            <div class="row">
 
-  {% for item in event_created -%}
+                {% for item in event_created -%}
 
-      <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-{#              <img src="http://placehold.it/400x300" alt="...">#}
-              <div class="caption">
-{#                  event_name, event_description, event_location, start_time, end_time#}
-{#                <h3>{{ item[1] }}</h3>#}
-                <p>item</p>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            {#              <img src="http://placehold.it/400x300" alt="...">#}
+                            <div class="caption">
+                                {#                  event_name, event_description, event_location, start_time, end_time#}
+                                {#                <h3>{{ item[1] }}</h3>#}
+                                <p>item</p>
 
 
-{#                <p><a href="#" class="btn btn-primary" role="button">Register</a>#}
-{#                    <a href="#" class="btn btn-default" role="button">Event Detail</a></p>#}
-{#                  <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>#}
-              </div>
+                                {#                <p><a href="#" class="btn btn-primary" role="button">Register</a>#}
+                                {#                    <a href="#" class="btn btn-default" role="button">Event Detail</a></p>#}
+                                {#                  <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>#}
+                            </div>
+                        </div>
+                    </div>
+                {%- endfor %}
+                {% for item in events_participated -%}
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            {#              <img src="http://placehold.it/400x300" alt="...">#}
+                            <div class="caption">
+                                {#                  event_name, event_description, event_location, start_time, end_time#}
+                                {#                <h3>{{ item[1] }}</h3>#}
+                                <p>item</p>
+
+
+                                {#                <p><a href="#" class="btn btn-primary" role="button">Register</a>#}
+                                {#                    <a href="#" class="btn btn-default" role="button">Event Detail</a></p>#}
+                                {#                  <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>#}
+                            </div>
+                        </div>
+                    </div>
+                {%- endfor %}
+
+
+
             </div>
-          </div>
-    {%- endfor %}
-  {% for item in events_participated -%}
-
-      <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-{#              <img src="http://placehold.it/400x300" alt="...">#}
-              <div class="caption">
-{#                  event_name, event_description, event_location, start_time, end_time#}
-{#                <h3>{{ item[1] }}</h3>#}
-                <p>item</p>
-
-
-{#                <p><a href="#" class="btn btn-primary" role="button">Register</a>#}
-{#                    <a href="#" class="btn btn-default" role="button">Event Detail</a></p>#}
-{#                  <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>#}
-              </div>
-            </div>
-          </div>
-    {%- endfor %}
-
-
-
-      </div>
-      </div>
+        </div>
 
 
 
