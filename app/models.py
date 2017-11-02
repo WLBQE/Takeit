@@ -52,11 +52,14 @@ class User:
         return data[0]
 
     def register(self, event_id):
+        if Event(event_id).find() is None:
+            return False
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
         conn.commit()
         conn.close()
+        return True
 
     def get_friends(self):
         conn = db.connect()
