@@ -1,6 +1,5 @@
 from flask import render_template, request, redirect, session, abort
-import sys
-from app import app, db
+from app import app
 from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
 
@@ -50,16 +49,15 @@ def signup():
         userid = User().create(form.email.data, form.password.data, form.username.data)
         if userid is not None:
             session['userid'] = userid
-            return redirect('/%s' % userid)
-        return "User exist! <br><a href = '/signup'></b>" + \
-               "click here to sign up again</b></a>"
+            return redirect('/home')
+        return redirect('/signup')
 
     return render_template('signup.html', form=form)
 
 
 @app.route('/profile/<int:userid>')
 def profile(userid):
-    return render_template('profile.html', name=id)
+    return render_template('profile.html', name=userid)
 
 
 @app.route('/event_detail/<int:eventid>')
@@ -79,7 +77,7 @@ def create_event():
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         if eventid is not None:
-            return redirect('/%s' % session['userid'])
+            return redirect('/home')
         return redirect('/create_event')
 
     return render_template('create_event.html', form=form)
