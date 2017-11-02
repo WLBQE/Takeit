@@ -13,7 +13,7 @@ Create Event
 {% block content %}
 <div class="container">
 
-  <form class="form-signin" method="POST" action="/signup">
+  <form class="form-signin" method="POST" action="/create_event">
     <h2 class="form-signin-heading">Create Event</h2>
       {{ form.hidden_tag() }}
       {{ wtf.form_field(form.name) }}
