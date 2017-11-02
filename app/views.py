@@ -5,12 +5,19 @@ from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
 
 
-@app.route('/<int:userid>')
-def index(userid=None):
+@app.route('/home')
+def index():
     if 'userid' in session:
-        if session['userid'] == userid:
-            events = User(userid).get_friends_events()
-            return render_template('index.html', user=userid, event_list=events)
+        userid = session['userid']
+        events = User(userid).get_friends_events()
+        creator_name_list = {}
+        for e in events:
+            creator_id = e[6]
+            creator = User(creator_id).find()
+            if creator is None:
+                abort(501)
+            creator_name_list[creator_id] = creator[3]
+        return render_template('index.html', user=userid, event_list=events, creators=creator_name_list)
     return redirect('/login')
 
 
@@ -22,7 +29,7 @@ def login():
         userid = User().authenticate(form.email.data, form.password.data)
         if userid is not None:
             session['userid'] = userid
-            return redirect('/%s' % userid)
+            return redirect('/home')
         else:
             return redirect('/login')
 
