@@ -121,5 +121,4 @@ class Event:
         self.id = cursor.lastrowid
         conn.commit()
         conn.close()
-        creator.register(self.id)
         return self.id
