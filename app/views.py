@@ -60,6 +60,14 @@ def profile(userid):
     return render_template('profile.html', name=userid)
 
 
+@app.route('/register/<int:eventid>')
+def register(eventid):
+    userid = session['userid']
+    if User(userid).register(eventid) is True:
+        return redirect('/profile/%s' % userid)
+    return redirect('/home')
+
+
 @app.route('/event_detail/<int:eventid>')
 def event_detail(eventid):
     event = Event(eventid).find()
@@ -72,8 +80,8 @@ def event_detail(eventid):
 def create_event():
     form = EventDetailForm()
     if form.validate_on_submit():
-        start_time = form.start_date.data + form.start_time.data
-        end_time = form.start_date.data + form.end_time.data
+        start_time = form.start_date.data + '' + form.start_time.data
+        end_time = form.start_date.data + '' + form.end_time.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         if eventid is not None:
