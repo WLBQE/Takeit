@@ -63,7 +63,7 @@ def event_detail(eventid):
     return render_template('event_detail.html', event=event)
 
 
-@app.route('/create_event', method=['GET', 'POST'])
+@app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
     form = EventDetailForm()
     if form.validate_on_submit():
