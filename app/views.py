@@ -40,7 +40,7 @@ def login():
 def logout():
     if 'userid' in session:
         session.pop('userid', None)
-        return redirect('/login')
+    return redirect('/login')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -81,6 +81,8 @@ def profile(userid):
 
 @app.route('/register/<int:eventid>')
 def register(eventid):
+    if 'userid' not in session:
+        return redirect('/login')
     userid = session['userid']
     if User(userid).register(eventid) is True:
         return redirect('/profile/%d' % userid)
@@ -89,6 +91,8 @@ def register(eventid):
 
 @app.route('/event_detail/<int:eventid>')
 def event_detail(eventid):
+    if 'userid' not in session:
+        return redirect('/login')
     event = Event(eventid).find()
     if event is None:
         return abort(404)
@@ -97,6 +101,8 @@ def event_detail(eventid):
 
 @app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
+    if 'userid' not in session:
+        return redirect('/login')
     form = EventDetailForm()
     if form.validate_on_submit():
         start_time = form.start_date.data + '' + form.start_time.data
