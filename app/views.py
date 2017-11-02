@@ -29,6 +29,13 @@ def login():
     return render_template('login.html', form=form)
 
 
+@app.route('/logout')
+def logout():
+    if 'userid' in session:
+        session.pop('userid', None)
+        return redirect('/login')
+
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
@@ -43,8 +50,8 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/profile/<id>')
-def profile(id):
+@app.route('/profile/<int:userid>')
+def profile(userid):
     return render_template('profile.html', name=id)
 
 
@@ -53,11 +60,10 @@ def event_detail(eventid):
     event = Event(eventid).find()
     if event is None:
         return abort(404)
-    return '{{event.name}}'
-    #return render_template('event_detail.html', event)
+    return render_template('event_detail.html', event=event)
 
 
-@app.route('/create_event')
+@app.route('/create_event', method=['GET', 'POST'])
 def create_event():
     form = EventDetailForm()
     if form.validate_on_submit():
@@ -69,5 +75,5 @@ def create_event():
             return redirect('/%s' % session['userid'])
         return redirect('/create_event')
 
-    return render_template('create_event.html')
+    return render_template('create_event.html', form=form)
 
