@@ -71,7 +71,7 @@ def profile(userid):
             if creator is None:
                 abort(501)
             creator_name_list[creator_id] = creator[3]
-    return render_template('index.html', user_profile=user, event_created=events_created,
+    return render_template('profile.html', user_profile=user, event_created=events_created,
                            events_participated=events_participated, creators=creator_name_list)
     return redirect('/login')
 
