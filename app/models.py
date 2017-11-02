@@ -80,7 +80,7 @@ class User:
     def get_events_created(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM Events WHERE creator={}".format(self.id))
+        cursor.execute("SELECT * FROM Events WHERE creator={}".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -88,7 +88,7 @@ class User:
     def get_events_participated(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT event FROM Regs WHERE user={})".format(self.id))
+        cursor.execute("SELECT * FROM Events WHERE id IN (SELECT event FROM Regs WHERE user={})".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
