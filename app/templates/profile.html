@@ -59,7 +59,7 @@
                                   <p>{{ item[3] }}</p>
                                   <p>{{ item[4] }}</p>
                                   <p>{{ item[5] }}</p>
-                                  <p>{{ creators[ item[6]] }}</p>
+{#                                  <p>{{ creators[ item[6]] }}</p>#}
                                  <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>
 
                             </div>
@@ -84,7 +84,7 @@
                               <p>{{ item[3] }}</p>
                               <p>{{ item[4] }}</p>
                               <p>{{ item[5] }}</p>
-{#                              <p>{{ creators[ item[6]] }}</p>#}
+                              <p>{{ creators[ item[6]] }}</p>
                                 <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>
                             </div>
                         </div>
