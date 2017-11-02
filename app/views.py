@@ -8,9 +8,9 @@ from .models import User, Event
 @app.route('/<int:userid>')
 def index(userid=None):
     if 'userid' in session:
-        print()
         if session['userid'] == userid:
-            return render_template('index.html', user=userid)
+            events = User(userid).get_friends_events()
+            return render_template('index.html', user=userid, event_list=events)
     return redirect('/login')
 
 
