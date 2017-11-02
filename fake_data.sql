@@ -10,13 +10,12 @@ INSERT INTO TakeIt.Users (email, password, username)
   VALUES ('wangdan@pku.edu.cn', '$2b$12$gR3xq9z5ykSaJa3OFT0YEegTmrlXsZX8zdDxo/rj2G5RpcpaTA3nm', 'Wang Dan');
 
 INSERT INTO TakeIt.Events (name, start_time, end_time, location, description, creator)
-    VALUES ('19 Da', '2017-10-01 00:00', '2017-10-01 23:59', 'Renmin Dahuitang 19', 'Ting Dang Zhi Hui 19', 1);
+    VALUES ('19 Da', '2017-10-01 00:00', '2017-10-01 23:59', 'Renmin Dahuitang', 'Follow the party', 1);
 INSERT INTO TakeIt.Events (name, start_time, end_time, location, description, creator)
     VALUES ('Falun Dafa', '1997-10-01 00:00', '1997-10-01 23:59', 'Xinghai Square', 'Falun Dafa is good', 2);
 INSERT INTO TakeIt.Events (name, start_time, end_time, location, description, creator)
     VALUES ('8964', '1989-06-04 00:00', '1989-06-04 06:00', 'Tiananmen Square', 'China needs democracy', 4);
 
-INSERT INTO TakeIt.Friends (id1, id2) VALUES(1, 1);
 INSERT INTO TakeIt.Friends (id1, id2) VALUES(1, 2);
 INSERT INTO TakeIt.Friends (id1, id2) VALUES(1, 3);
 INSERT INTO TakeIt.Friends (id1, id2) VALUES(1, 4);
