@@ -27,10 +27,7 @@ INSERT INTO TakeIt.Friends (id1, id2) VALUES(4, 5);
 INSERT INTO TakeIt.Friends (id1, id2) VALUES(5, 1);
 INSERT INTO TakeIt.Friends (id1, id2) VALUES(5, 4);
 
-INSERT INTO TakeIt.Regs (event, user) VALUES(1, 1);
 INSERT INTO TakeIt.Regs (event, user) VALUES(1, 3);
-INSERT INTO TakeIt.Regs (event, user) VALUES(2, 2);
 INSERT INTO TakeIt.Regs (event, user) VALUES(2, 3);
 INSERT INTO TakeIt.Regs (event, user) VALUES(3, 3);
-INSERT INTO TakeIt.Regs (event, user) VALUES(3, 4);
 INSERT INTO TakeIt.Regs (event, user) VALUES(3, 5);
