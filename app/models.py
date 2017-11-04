@@ -122,3 +122,13 @@ class Event:
         conn.commit()
         conn.close()
         return self.id
+
+    def get_participants(self):
+        if not self.find():
+            return None
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Users WHERE id IN (SELECT user FROM Regs WHERE event={})".format(self.id))
+        data = cursor.fetchall()
+        conn.close()
+        return data
