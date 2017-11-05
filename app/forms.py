@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField,TextAreaField
 from wtforms.validators import InputRequired, Email, Length
 
 
@@ -23,11 +23,9 @@ class RegisterForm(FlaskForm):
 class EventDetailForm(FlaskForm):
     name = StringField('name', validators=[InputRequired(), Length(message='Length should be between 1 and 64'
                                                                            ' characters', min=1, max=64)])
-    start_date = StringField('start_date', validators=[InputRequired(), Length(message='Format: yyyy-mm-dd',
-                                                                               min=10, max=10)])
-    start_time = StringField('start_time', validators=[InputRequired(), Length(message='Format: hh:mm', min=5, max=5)])
-    end_date = StringField('end_date', validators=[InputRequired(), Length(message='Format: yyyy-mm-dd',
-                                                                           min=10, max=10)])
-    end_time = StringField('end_time', validators=[InputRequired(), Length(message='Format: hh:mm', min=5, max=5)])
+    start_date = StringField('start_date', validators=[InputRequired(), Length(message='Format: yyyy-mm-dd',min=1, max=64)])
+    # start_time = StringField('start_time', validators=[InputRequired(), Length(message='Format: hh:mm', min=5, max=5)])
+    end_date = StringField('end_date', validators=[InputRequired(), Length(message='Format: yyyy-mm-dd',min=1, max=64)])
+    # end_time = StringField('end_time', validators=[InputRequired(), Length(message='Format: hh:mm', min=5, max=5)])
     location = StringField('location', validators=[InputRequired(), Length(max=255)])
-    description = StringField('description', validators=[InputRequired(), Length(max=65535)])
+    description = TextAreaField('description', validators=[InputRequired(), Length(max=65535)])
