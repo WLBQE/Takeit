@@ -5,7 +5,7 @@ from .models import User, Event
 
 
 @app.route('/home')
-def index():
+def home():
     if 'userid' in session:
         userid = session['userid']
         events = User(userid).get_friends_events()
@@ -17,7 +17,7 @@ def index():
                 if creator is None:
                     return abort(501)
                 creator_name_list[creator_id] = creator[3]
-        return render_template('index.html', user=userid, event_list=events, creators=creator_name_list)
+        return render_template('home.html', user=userid, event_list=events, creators=creator_name_list)
     return redirect('/login')
 
 
@@ -76,7 +76,7 @@ def profile(userid):
 
     return render_template('profile.html', current_user=session['userid'], user_profile=user,
                            event_created=events_created, events_participated=events_participated,
-                           creators=creator_name_list)
+                           creators=creator_name_list, user=userid)
 
 
 @app.route('/register/<int:eventid>')
@@ -96,7 +96,7 @@ def event_detail(eventid):
     event = Event(eventid).find()
     if event is None:
         return abort(404)
-    return render_template('event_detail.html', event=event)
+    return render_template('event_detail.html', event=event, user=session['userid'])
 
 
 @app.route('/create_event', methods=['GET', 'POST'])
@@ -104,14 +104,15 @@ def create_event():
     if 'userid' not in session:
         return redirect('/login')
     form = EventDetailForm()
+    userid = session['userid']
     if form.validate_on_submit():
-        start_time = form.start_date.data + ' ' + form.start_time.data
-        end_time = form.start_date.data + ' ' + form.end_time.data
+        start_time = form.start_date.data
+        end_time = form.start_date.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         if eventid is not None:
             return redirect('/home')
         return redirect('/create_event')
 
-    return render_template('create_event.html', form=form)
+    return render_template('create_event.html', form=form, user=userid)
 
