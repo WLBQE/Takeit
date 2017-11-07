@@ -24,6 +24,8 @@ def home():
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'userid' in session:
+        return 'You already Logged In'
     form = LoginForm()
     if form.validate_on_submit():
         userid = User().authenticate(form.email.data, form.password.data)
@@ -108,7 +110,7 @@ def create_event():
     userid = session['userid']
     if form.validate_on_submit():
         start_time = form.start_date.data
-        end_time = form.start_date.data
+        end_time = form.end_date.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         if eventid is not None:
