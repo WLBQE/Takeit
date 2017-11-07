@@ -51,6 +51,16 @@ class User:
         self.id = data[0]
         return data[0]
 
+    def check_register(self, event_id):
+        if Event(event_id).find() is None:
+            return False
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Regs WHERE event={} and user={}".format(event_id, self.id))
+        data = cursor.fecthone()
+        conn.close()
+        return data is not None
+
     def register(self, event_id):
         if Event(event_id).find() is None:
             return False
