@@ -37,7 +37,7 @@ Demo App
     <div style="background: transparent !important;" class="jumbotron">
       <h1>{{ event[1] }}</h1>
 {#        <button type="button" class="btn btn-default pull-right" > Register</button>#}
-        {% if true %}
+        {% if registered %}
             <button class="btn btn-primary pull-right" type="button" disabled="disabled">Registered</button>
         {% else %}
             <button class="btn btn-default pull-right" type="button" onclick="window.location.href='{{ url_for( 'register', eventid = event[0] ) }}';">Register</button>
