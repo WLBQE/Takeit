@@ -113,7 +113,7 @@ class Event:
 
     def find(self):
         if self.id is None:
-            return False
+            return None
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Events WHERE id={}".format(self.id))

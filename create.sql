@@ -1,7 +1,8 @@
 DROP DATABASE IF EXISTS TakeIt;
 CREATE DATABASE TakeIt;
+USE TakeIt;
 
-CREATE TABLE TakeIt.Users (
+CREATE TABLE Users (
   id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
@@ -10,7 +11,7 @@ CREATE TABLE TakeIt.Users (
   UNIQUE(email)
 );
 
-CREATE TABLE TakeIt.Events (
+CREATE TABLE Events (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL,
   start_time VARCHAR(20),
@@ -18,17 +19,22 @@ CREATE TABLE TakeIt.Events (
   location TINYTEXT,
   description TEXT,
   creator INT NOT NULL,
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  FOREIGN KEY (creator) REFERENCES Users(id)
 );
 
-CREATE TABLE TakeIt.Friends (
+CREATE TABLE Friends (
   id1 INT NOT NULL,
   id2 INT NOT NULL,
-  CONSTRAINT UNIQUE(id1, id2)
+  CONSTRAINT UNIQUE(id1, id2),
+  FOREIGN KEY (id1) REFERENCES Users(id),
+  FOREIGN KEY (id2) REFERENCES Users(id)
 );
 
-CREATE TABLE TakeIt.Regs (
+CREATE TABLE Regs (
   event INT NOT NULL,
   user INT NOT NULL,
-  CONSTRAINT UNIQUE(event, user)
+  CONSTRAINT UNIQUE(event, user),
+  FOREIGN KEY (user) REFERENCES Users(id),
+  FOREIGN KEY (event) REFERENCES Events(id)
 );
