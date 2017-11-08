@@ -98,8 +98,12 @@ def event_detail(eventid):
     event = Event(eventid).find()
     if event is None:
         return abort(404)
+    if User(session['userid']).check_register(event[0]) is True:
+        registered = True
+    else:
+        registered = False
     participants = Event(eventid).get_participants()
-    return render_template('event_detail.html', event=event, user=session['userid'], participants=participants)
+    return render_template('event_detail.html', event=event, user=session['userid'], participants=participants, registered=registered)
 
 
 @app.route('/create_event', methods=['GET', 'POST'])
