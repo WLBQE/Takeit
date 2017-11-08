@@ -52,12 +52,15 @@ class User:
         return data[0]
 
     def check_register(self, event_id):
-        if Event(event_id).find() is None:
+        event = Event(event_id).find()
+        if event is None:
             return False
+        if event[6] == self.id:
+            return True
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Regs WHERE event={} and user={}".format(event_id, self.id))
-        data = cursor.fecthone()
+        data = cursor.fetchone()
         conn.close()
         return data is not None
 
