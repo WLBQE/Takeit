@@ -10,7 +10,7 @@ class Tests(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         self.app = app.test_client()
 
-    def run_sql_file(self, filename, connection):
+    def run_sql_file(self, filename):
         sqlfile = open(filename, 'r')
         sql = " ".join(sqlfile.readlines())
         connection = db.connect()
@@ -21,8 +21,8 @@ class Tests(unittest.TestCase):
 
     # executed after each test
     def tearDown(self):
-        self.run_sql_file('create.sql', 'r')
-        self.run_sql_file('fake_data.sql', 'r')
+        self.run_sql_file('create.sql')
+        self.run_sql_file('fake_data.sql')
 
     # test for view
     def login(self, email, password):
