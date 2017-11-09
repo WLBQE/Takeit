@@ -34,26 +34,25 @@ class Tests(unittest.TestCase):
     def test_login_success(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
-        self.assertIn('Falun Dafa', rv.data)
-        self.assertIn('8964', rv.data)
+        self.assertIn(b'Falun Dafa', rv.data)
+        self.assertIn(b'8964', rv.data)
 
-        rv = self.app.get('/event_detail/4', follow_redirects=True)
+        rv = self.app.get('/event_detail/2', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
-        self.assertIn('1997-10-01', rv.data)
+        self.assertIn(b'1997-10-01', rv.data)
 
         rv = self.app.get('/profile/1', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
-        self.assertIn('19 Da', rv.data)
+        self.assertIn(b'19 Da', rv.data)
 
         rv = self.app.get('/home', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
-        self.assertIn('8964', rv.data)
+        self.assertIn(b'8964', rv.data)
 
     def test_login_fail(self):
         rv = self.login('xjp@ccp.gov', 'wrong_password')
         self.assertEqual(rv.status_code, 200)
-        self.assertIn('Sign in', rv.data)
-
+        self.assertIn(b'sign in', rv.data)
 
 
 if __name__ == "__main__":
