@@ -1,5 +1,6 @@
 import unittest
-from app import app
+from app import app, db
+from flaskext.mysql import MySQL
 
 
 class Tests(unittest.TestCase):
@@ -9,9 +10,19 @@ class Tests(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         self.app = app.test_client()
 
+    def run_sql_file(self, filename, connection):
+        sqlfile = open(filename, 'r')
+        sql = " ".join(sqlfile.readlines())
+        connection = db.connect()
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        connection.close()
+
     # executed after each test
     def tearDown(self):
-        pass
+        self.run_sql_file('create.sql', 'r')
+        self.run_sql_file('fake_data.sql', 'r')
 
     # test for view
     def login(self, email, password):
