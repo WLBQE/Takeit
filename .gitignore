@@ -4,4 +4,4 @@ venv/
 .DS_STORE
 __pycache__/
 git.zsh
-*.txt
+log_file.txt
