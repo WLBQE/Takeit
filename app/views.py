@@ -25,7 +25,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'userid' in session:
-        return 'You already Logged In'
+        return redirect('/home')
     form = LoginForm()
     if form.validate_on_submit():
         userid = User().authenticate(form.email.data, form.password.data)
