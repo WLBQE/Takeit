@@ -29,14 +29,8 @@ Demo App
       </div>
 
 
-
-{#    <div class="page-header">#}
-{#        #}
-{##}
-{#    </div>#}
     <div style="background: transparent !important;" class="jumbotron">
       <h1>{{ event[1] }}</h1>
-{#        <button type="button" class="btn btn-default pull-right" > Register</button>#}
         {% if registered %}
             <button class="btn btn-primary pull-right" type="button" disabled="disabled">Registered</button>
         {% else %}
@@ -46,7 +40,6 @@ Demo App
 
        <hr>
         <small>{{ event[5] }}</small>
-{#      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>#}
     </div>
 
 

@@ -27,9 +27,7 @@ Sign Up
         <div class="input-group input-group-lg">
             <span class="input-group-addon">Event name</span>
             {{ form.hidden_tag() }}
-{#            {{ wtf.form_field(form.name)  }}#}
             {{ form.name(class_="form-control", placeholder="eg.Movie Blade runner 2049") }}
-{#            <input type="text" class="form-control" placeholder="eg.Movie Blade runner 2049">#}
         </div>
         <br>
         <div class="input-group input-group-lg" >
@@ -44,7 +42,7 @@ Sign Up
                 <span class="input-group-addon">Start Time
                 <span class="glyphicon glyphicon-calendar"></span>
                 </span>
-                   {{ form.start_date( class_="form-control", placeholder="eg.2017/10/28") }}
+                   {{ form.start_date( class_="form-control", placeholder="eg.2017-10-28 21:00") }}
          </div>
 
 
@@ -55,20 +53,18 @@ Sign Up
                 <span class="input-group-addon">End Time
                 <span class="glyphicon glyphicon-calendar"></span>
                 </span>
-                   {{ form.end_date( class_="form-control", placeholder="eg.2017/10/29") }}
+                   {{ form.end_date( class_="form-control", placeholder="eg.2017-10-28 22:00") }}
          </div>
 
         <div class="form-group">
 
   		   <h4 >Event Description:</h4>
             {{ form.description(class_="form-control", rows="5") }}
-{#  			<textarea class="form-control" rows="5" id="comment"></textarea>#}
 		</div>
 		<br>
         <center>
         	<div class="btn-group">
     		<button class="btn btn-default btn-lg" type="submit">Create this event</button>
-{#			        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>#}
 
             </div>
         </center>
