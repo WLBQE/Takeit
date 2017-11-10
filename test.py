@@ -18,6 +18,7 @@ class Tests(unittest.TestCase):
         cursor.execute(sql)
         connection.commit()
         connection.close()
+        sqlfile.close()
 
     # executed after each test
     def tearDown(self):
