@@ -9,6 +9,8 @@ def run_sql_file(filename):
         cursor.execute(sql)
         connection.commit()
         connection.close()
+        sqlfile.close()
+
 
 if __name__ == '__main__':
     run_sql_file('create.sql')
