@@ -126,8 +126,8 @@ def create_event():
 
 @app.route('/add_friend', methods=['GET', 'POST'])
 def add_friend():
-    userid = session['userid'] # user information returned from search bar
-    userinfo = request.form['userinfo']
+    userid = session['userid']
+    userinfo = request.form['userinfo'] # user information returned from search bar
     userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei','lilei@cu.edu']]
     # userlist.append(userinfo)
     return render_template('add_friend.html', userlist=userlist,user=userid)
@@ -142,7 +142,7 @@ def add(useremail):
 
 @app.route('/show_friends/<int:userid>')
 def show_friends(userid):
-    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei', 'lilei@cu.edu']]
+    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei', 'lilei@cu.edu']] # need include friends' id
     return render_template('show_friends.html', userlist=userlist,user=userid)
 
 
