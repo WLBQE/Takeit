@@ -1,6 +1,5 @@
 import unittest
 from app import app, db
-from flaskext.mysql import MySQL
 
 
 class Tests(unittest.TestCase):
@@ -116,5 +115,3 @@ if __name__ == "__main__":
     runner = unittest.TextTestRunner(f)
     unittest.main(testRunner=runner)
     f.close()
-
-
