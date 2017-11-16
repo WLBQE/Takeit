@@ -123,3 +123,20 @@ def create_event():
 
     return render_template('create_event.html', form=form, user=userid)
 
+
+@app.route('/add_friend', methods=['GET', 'POST'])
+def add_friend():
+    userid = session['userid'] # user information returned from search bar
+    userinfo = request.form['userinfo']
+    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei','lilei@cu.edu']]
+    # userlist.append(userinfo)
+    return render_template('add_friend.html', userlist=userlist,user=userid)
+
+
+@app.route('/add/<string:useremail>')
+def add(useremail):
+    if 'userid' not in session:
+        return redirect('/login')
+
+    return 'Now you have added ' + useremail
+
