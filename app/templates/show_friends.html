@@ -18,10 +18,11 @@ Demo App
 
 {% block content %}
 
+
 <div class="container">
   <div class="starter-template">
     <h1>Add Friends</h1>
-    <p class="lead">THIS IS THE Add Friends DETAIL <br> BELOW ARE THE users</p>
+        <p class="lead">THIS IS THE Friends DETAIL USER WILL SEE AFTER CLICK EVENT DETAIL<br> BELOW ARE THE Friends DETAIL</p>
 
     {% for item in userlist %}
 
@@ -35,7 +36,7 @@ Demo App
                     <h4 class="media-heading">{{ item[1] }}</h4>
                 </div>
                  <div class="media-right" >
-                    <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'add', useremail = item[1] ) }}';">ADD</button>
+                    <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'profile', userid = 1 ) }}';">View More</button>
                 </div>
         </div>
       </div>
@@ -46,4 +47,5 @@ Demo App
 
   </div>
 </div><!-- /.container -->
+
 {% endblock %}

@@ -140,3 +140,10 @@ def add(useremail):
 
     return 'Now you have added ' + useremail
 
+@app.route('/show_friends/<int:userid>')
+def show_friends(userid):
+    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei', 'lilei@cu.edu']]
+    return render_template('show_friends.html', userlist=userlist,user=userid)
+
+
+
