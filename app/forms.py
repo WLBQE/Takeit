@@ -8,7 +8,7 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(),
                                                      Length(message='Length should be between 8 and 32',
                                                             min=8, max=32)])
-    remember = BooleanField('remember me')
+    # remember = BooleanField('remember me')
 
 
 class RegisterForm(FlaskForm):
