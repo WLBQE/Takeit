@@ -33,3 +33,6 @@ INSERT INTO Regs (event, user) VALUES(1, 3);
 INSERT INTO Regs (event, user) VALUES(2, 3);
 INSERT INTO Regs (event, user) VALUES(3, 3);
 INSERT INTO Regs (event, user) VALUES(3, 5);
+
+INSERT INTO Comments (event, creator, content) VALUES (1, 1, 'Jiang Zemin is the enemy of us!');
+INSERT INTO Comments (event, creator, content) VALUES (1, 3, 'I spoke with American Wallace.');
