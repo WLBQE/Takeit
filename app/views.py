@@ -2,7 +2,6 @@ from flask import render_template, request, redirect, session, abort
 from app import app
 from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
-from PIL import Image
 import os
 
 UPLOAD_FOLDER = '/Users/yinanji/Dropbox/ASE/TEST/ToySystem'
@@ -117,7 +116,6 @@ def create_event():
     form = EventDetailForm()
     userid = session['userid']
 
-
     if form.validate_on_submit():
         start_time = form.start_date.data
         end_time = form.end_date.data
@@ -125,7 +123,6 @@ def create_event():
                                  start_time, end_time)
         file = request.files['file']
         if file:
-
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         if eventid is not None:
             return redirect('/home')
