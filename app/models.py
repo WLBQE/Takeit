@@ -85,7 +85,14 @@ class User:
             return
         conn.commit()
         conn.close()
-        return
+
+    def check_follow(self, user_id):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
+        data = cursor.fetchall()
+        conn.close()
+        return data is not None
 
     def follow(self, user_id):
         conn = db.connect()
@@ -109,7 +116,6 @@ class User:
             return
         conn.commit()
         conn.close()
-        return
 
     def get_followings(self):
         conn = db.connect()
