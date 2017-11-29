@@ -9,8 +9,6 @@ class User:
         self.id = user_id
 
     def create(self, email, password, username):
-        if self.id is not None:
-            return None
         conn = db.connect()
         cursor = conn.cursor()
         try:
