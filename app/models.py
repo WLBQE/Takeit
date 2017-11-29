@@ -12,7 +12,7 @@ class User:
         conn = db.connect()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO Users(email, password, username) VALUES('{}', '{}', '{}')"
+            cursor.execute("INSERT INTO Users (email, password, username) VALUES('{}', '{}', '{}')"
                            .format(email, bcrypt.encrypt(password), username))
         except IntegrityError:
             conn.close()
@@ -57,7 +57,7 @@ class User:
             return True
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Regs WHERE event={} and user={}".format(event_id, self.id))
+        cursor.execute("SELECT * FROM Regs WHERE event={} AND user={}".format(event_id, self.id))
         data = cursor.fetchone()
         conn.close()
         return data is not None
@@ -74,6 +74,18 @@ class User:
         conn.close()
         return True
 
+    def unregister(self, event_id):
+        conn = db.connect()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("DELETE FROM Regs WHERE event={} AND user={}".format(event_id, self.id))
+        except IntegrityError:
+            conn.close()
+            return
+        conn.commit()
+        conn.close()
+        return
+
     def follow(self, user_id):
         conn = db.connect()
         cursor = conn.cursor()
@@ -85,6 +97,18 @@ class User:
         conn.commit()
         conn.close()
         return True
+
+    def unfollow(self, user_id):
+        conn = db.connect()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("DELETE FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
+        except IntegrityError:
+            conn.close()
+            return
+        conn.commit()
+        conn.close()
+        return
 
     def get_followings(self):
         conn = db.connect()
@@ -129,6 +153,20 @@ class User:
         data = cursor.fetchall()
         conn.close()
         return data
+
+    def post_comment(self, event_id, content):
+        conn = db.connect()
+        cursor = conn.cursor()
+        try:
+            cursor.execute('''
+              INSERT INTO Comments (event, creator, content) VALUES ({}, {}, '{}')
+              '''.format(event_id, self.id, content))
+        except IntegrityError:
+            conn.close()
+            return False
+        conn.commit()
+        conn.close()
+        return True
 
     @staticmethod
     def search_user(keyword):
