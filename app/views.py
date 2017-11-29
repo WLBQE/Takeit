@@ -148,7 +148,7 @@ def add_friend():
 def add(userid):
     if 'userid' not in session:
         return redirect('/login')
-    if User().follow(userid) is False:
+    if User(session['userid']).follow(userid) is False:
         return 'Cannot follow'
     return redirect('/show_friends/%s' % session['userid'])
 
