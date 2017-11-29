@@ -14,8 +14,8 @@ CREATE TABLE Users (
 CREATE TABLE Events (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL,
-  start_time VARCHAR(20),
-  end_time VARCHAR(20),
+  start_time VARCHAR(20) NOT NULL,
+  end_time VARCHAR(20) NOT NULL,
   location TINYTEXT,
   description TEXT,
   creator INT NOT NULL,
@@ -39,4 +39,13 @@ CREATE TABLE Regs (
   CONSTRAINT UNIQUE(event, user),
   FOREIGN KEY (user) REFERENCES Users(id),
   FOREIGN KEY (event) REFERENCES Events(id)
+);
+
+CREATE TABLE Comments (
+  id INT NOT NULL AUTO_INCREMENT,
+  event INT NOT NULL,
+  creator INT NOT NULL,
+  content TEXT,
+  FOREIGN KEY (event) REFERENCES Events(id),
+  FOREIGN KEY (creator) REFERENCES Users(id)
 );
