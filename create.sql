@@ -21,7 +21,7 @@ CREATE TABLE Events (
   creator INT NOT NULL,
   PRIMARY KEY(id),
   CHECK(STRCMP(start_time, end_time) = -1),
-  FOREIGN KEY (creator) REFERENCES Users(id)
+  FOREIGN KEY(creator) REFERENCES Users(id)
 );
 
 CREATE TABLE Follow (
@@ -29,16 +29,16 @@ CREATE TABLE Follow (
   id2 INT NOT NULL,
   CONSTRAINT UNIQUE(id1, id2),
   CHECK(id1 <> id2),
-  FOREIGN KEY (id1) REFERENCES Users(id),
-  FOREIGN KEY (id2) REFERENCES Users(id)
+  FOREIGN KEY(id1) REFERENCES Users(id),
+  FOREIGN KEY(id2) REFERENCES Users(id)
 ); -- id1 follows id2
 
 CREATE TABLE Regs (
   event INT NOT NULL,
   user INT NOT NULL,
   CONSTRAINT UNIQUE(event, user),
-  FOREIGN KEY (user) REFERENCES Users(id),
-  FOREIGN KEY (event) REFERENCES Events(id)
+  FOREIGN KEY(user) REFERENCES Users(id),
+  FOREIGN KEY(event) REFERENCES Events(id)
 );
 
 CREATE TABLE Comments (
@@ -46,6 +46,7 @@ CREATE TABLE Comments (
   event INT NOT NULL,
   creator INT NOT NULL,
   content TEXT,
-  FOREIGN KEY (event) REFERENCES Events(id),
-  FOREIGN KEY (creator) REFERENCES Users(id)
+  PRIMARY KEY(id),
+  FOREIGN KEY(event) REFERENCES Events(id),
+  FOREIGN KEY(creator) REFERENCES Users(id)
 );
