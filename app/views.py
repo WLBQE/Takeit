@@ -116,19 +116,7 @@ def create_event():
         return redirect('/login')
     form = EventDetailForm()
     userid = session['userid']
-<<<<<<< HEAD
 
-    # if request.method == 'POST':
-    #     if 'file' not in request.files:
-    #         return render_template('create_event.html', form=form, user=userid)
-    #     file = request.files['file']
-    #
-    #     if file:
-    #         file.save('/Users/yinanji/Dropbox/ASE/TEST/ToySystem')
-    #     redirect('/home')
-=======
-    event_cover_page = request.form['cover_page']
->>>>>>> c41ca6badf713347149608ac19d31d9e352ac1ca
 
     if form.validate_on_submit():
         start_time = form.start_date.data
