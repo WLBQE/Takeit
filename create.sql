@@ -20,6 +20,7 @@ CREATE TABLE Events (
   description TEXT,
   creator INT NOT NULL,
   PRIMARY KEY(id),
+  CHECK(STRCMP(start_time, end_time) = -1),
   FOREIGN KEY (creator) REFERENCES Users(id)
 );
 
