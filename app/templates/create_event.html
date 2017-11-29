@@ -22,7 +22,7 @@ Sign Up
 
 {% block content %}
 <div style="padding: 100px 100px 10px;">
-    <form class="bs-example bs-example-form" method="POST" action="/create_event" >
+    <form class="bs-example bs-example-form" method="POST" action="/create_event" enctype="multipart/form-data" >
 
         <div class="input-group input-group-lg">
             <span class="input-group-addon">Event name</span>
@@ -65,8 +65,9 @@ Sign Up
 {#        <form class="navbar-form navbar-left" role="form" method="POST" action="{{ url_for( 'add_friend') }}">#}
 
 {#      <form action = "{{ url_for( 'add_friend') }}" method = "POST" enctype = "multipart/form-data">#}
+{#        <form method= post >#}
         <label class="btn btn-default">
-            Upload Cover Page <input style="display: none !important; " name = "cover_page" type="file" >
+            Upload Cover Page <input style="display: none !important; " name = "file" type="file" >
         </label>
 {#        </form>#}
 

@@ -2,7 +2,11 @@ from flask import render_template, request, redirect, session, abort
 from app import app
 from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
+from PIL import Image
+import os
 
+UPLOAD_FOLDER = '/Users/yinanji/Dropbox/ASE/TEST/ToySystem'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/home')
 def home():
@@ -112,12 +116,25 @@ def create_event():
         return redirect('/login')
     form = EventDetailForm()
     userid = session['userid']
-    event_cover_page = request.form['cover_page']
+
+    # if request.method == 'POST':
+    #     if 'file' not in request.files:
+    #         return render_template('create_event.html', form=form, user=userid)
+    #     file = request.files['file']
+    #
+    #     if file:
+    #         file.save('/Users/yinanji/Dropbox/ASE/TEST/ToySystem')
+    #     redirect('/home')
+
     if form.validate_on_submit():
         start_time = form.start_date.data
         end_time = form.end_date.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
+        file = request.files['file']
+        if file:
+
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         if eventid is not None:
             return redirect('/home')
         return redirect('/create_event')
