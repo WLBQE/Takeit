@@ -74,7 +74,7 @@ def profile(userid):
             creator = User(creator_id).find()
             if creator is None:
                 abort(501)
-            creator_name_list[creator_id] = creator[3]
+            creator_name_list[creator_id] = creator[1]
 
     return render_template('profile.html', current_user=session['userid'], user_profile=user,
                            event_created=events_created, events_participated=events_participated,
@@ -113,6 +113,7 @@ def create_event():
     form = EventDetailForm()
     userid = session['userid']
     event_cover_page = request.form['cover_page']
+
     if form.validate_on_submit():
         start_time = form.start_date.data
         end_time = form.end_date.data
@@ -128,18 +129,18 @@ def create_event():
 @app.route('/add_friend', methods=['GET', 'POST'])
 def add_friend():
     userid = session['userid']
-    userinfo = request.form['userinfo'] # user information returned from search bar
-    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei', 'lilei@cu.edu']]
-    # userlist.append(userinfo)
+    userinfo = request.form['userinfo']
+    userlist = User().search_user(userinfo)
     return render_template('add_friend.html', userlist=userlist, user=userid)
 
 
-@app.route('/add/<string:useremail>')
-def add(useremail):
+@app.route('/add/<string:userid>')
+def add(userid):
     if 'userid' not in session:
         return redirect('/login')
-
-    return 'Now you have added ' + useremail
+    if User().follow(userid) is False:
+        return 'Cannot follow'
+    return redirect('/show_friends/%s' % session['userid'])
 
 
 @app.route('/show_friends/<int:userid>')
@@ -152,5 +153,5 @@ def show_friends(userid):
 @app.route('/change_profile')
 def change_profile():
     userid = session['userid']
-    return render_template('change_profile.html',user=userid)
+    return render_template('change_profile.html', user=userid)
 
