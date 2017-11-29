@@ -65,21 +65,25 @@ class User:
         return data is not None
 
     def register(self, event_id):
-        if Event(event_id).find() is None:
-            return False
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
+        try:
+            cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
+        except IntegrityError:
+            conn.close()
+            return False
         conn.commit()
         conn.close()
         return True
 
     def follow(self, user_id):
-        if User(user_id).find() is None:
-            return False
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO Follow (id1, id2) VALUES ({}, {})".format(self.id, user_id))
+        try:
+            cursor.execute("INSERT INTO Follow (id1, id2) VALUES ({}, {})".format(self.id, user_id))
+        except IntegrityError:
+            conn.close()
+            return False
         conn.commit()
         conn.close()
         return True
@@ -155,15 +159,16 @@ class Event:
         return data
 
     def create(self, creator_id, event_name, event_description, event_location, start_time, end_time):
-        creator = User(creator_id)
-        if not creator.find():
-            return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO Events (name, start_time, end_time, location, description, creator)
-            VALUES ('{}', '{}', '{}', '{}', '{}', '{}')
-            '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
+        try:
+            cursor.execute('''
+                INSERT INTO Events (name, start_time, end_time, location, description, creator)
+                VALUES ('{}', '{}', '{}', '{}', '{}', '{}')
+                '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
+        except IntegrityError:
+            conn.close()
+            return None
         self.id = cursor.lastrowid
         conn.commit()
         conn.close()
