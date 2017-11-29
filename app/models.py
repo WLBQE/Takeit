@@ -74,11 +74,21 @@ class User:
         conn.close()
         return True
 
+    def follow(self, user_id):
+        if User(user_id).find() is None:
+            return False
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO Follow (id1, id2) VALUES ({}, {})".format(self.id, user_id))
+        conn.commit()
+        conn.close()
+        return True
+
     def get_followings(self):
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, username, email FROM Friends, Users WHERE id1={} AND Users.id=Friends.id2
+            SELECT id, username, email FROM Follow, Users WHERE id1={} AND Users.id=Follow.id2
             '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
@@ -88,7 +98,7 @@ class User:
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, username, email FROM Friends, Users WHERE id2={} AND Users.id=Friends.id1
+            SELECT id, username, email FROM Follow, Users WHERE id2={} AND Users.id=Follow.id1
             '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
@@ -97,7 +107,7 @@ class User:
     def get_following_events(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Events WHERE creator IN (SELECT id2 FROM Friends WHERE id1={})".format(self.id))
+        cursor.execute("SELECT * FROM Events WHERE creator IN (SELECT id2 FROM Follow WHERE id1={})".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
