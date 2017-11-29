@@ -1,4 +1,5 @@
 from passlib.hash import bcrypt
+from pymysql import escape_string
 from pymysql.err import IntegrityError
 
 from app import db
@@ -14,7 +15,7 @@ class User:
         try:
             cursor.execute('''
                 INSERT INTO Users (email, password, username) VALUES('{}', '{}', '{}')
-                '''.format(email, bcrypt.encrypt(password), username))
+                '''.format(escape_string(email), bcrypt.encrypt(password), escape_string(username)))
         except IntegrityError:
             conn.close()
             return None
@@ -167,7 +168,7 @@ class User:
         try:
             cursor.execute('''
                 INSERT INTO Comments (event, creator, content) VALUES ({}, {}, '{}')
-                '''.format(event_id, self.id, content))
+                '''.format(event_id, self.id, escape_string(content)))
         except IntegrityError:
             conn.close()
             return False
@@ -181,7 +182,7 @@ class User:
         cursor = conn.cursor()
         cursor.execute('''
             SELECT id, username, email FROM Users WHERE STRCMP('{}', username)=0 OR STRCMP('{}', email)=0
-            '''.format(keyword, keyword))
+            '''.format(escape_string(keyword), escape_string(keyword)))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -207,8 +208,9 @@ class Event:
         try:
             cursor.execute('''
                 INSERT INTO Events (name, start_time, end_time, location, description, creator)
-                VALUES ('{}', '{}', '{}', '{}', '{}', '{}')
-                '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
+                VALUES ('{}', '{}', '{}', '{}', '{}', {})
+                '''.format(escape_string(event_name), escape_string(start_time), escape_string(end_time),
+                           escape_string(event_location), escape_string(event_description), creator_id))
         except IntegrityError:
             conn.close()
             return None
