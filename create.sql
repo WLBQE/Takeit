@@ -27,6 +27,7 @@ CREATE TABLE Friends (
   id1 INT NOT NULL,
   id2 INT NOT NULL,
   CONSTRAINT UNIQUE(id1, id2),
+  CHECK(id1 <> id2),
   FOREIGN KEY (id1) REFERENCES Users(id),
   FOREIGN KEY (id2) REFERENCES Users(id)
 ); -- id1 follows id2

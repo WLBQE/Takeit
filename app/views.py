@@ -8,7 +8,7 @@ from .models import User, Event
 def home():
     if 'userid' in session:
         userid = session['userid']
-        events = User(userid).get_friends_events()
+        events = User(userid).get_following_events()
         creator_name_list = {}
         for e in events:
             creator_id = e[6]
