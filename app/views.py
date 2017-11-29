@@ -94,7 +94,7 @@ def register(eventid):
     return redirect('/home')
 
 
-@app.route('/event_detail/<int:eventid>')
+@app.route('/event_detail/<int:eventid>', methods=['GET', 'POST'])
 def event_detail(eventid):
     if 'userid' not in session:
         return redirect('/login')
@@ -105,6 +105,7 @@ def event_detail(eventid):
         registered = True
     else:
         registered = False
+
     participants = Event(eventid).get_participants()
     return render_template('event_detail.html', event=event, user=session['userid'], participants=participants, registered=registered)
 
@@ -164,3 +165,8 @@ def change_profile():
     userid = session['userid']
     return render_template('change_profile.html', user=userid)
 
+@app.route('/add_comment/<int:eventid>', methods=['GET', 'POST'])
+def add_comment(eventid):
+    comment = request.form['comment']
+    if comment:
+        return comment
