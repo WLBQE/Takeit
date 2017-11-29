@@ -14,28 +14,39 @@ CREATE TABLE Users (
 CREATE TABLE Events (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(64) NOT NULL,
-  start_time VARCHAR(20),
-  end_time VARCHAR(20),
+  start_time VARCHAR(20) NOT NULL,
+  end_time VARCHAR(20) NOT NULL,
   location TINYTEXT,
   description TEXT,
   creator INT NOT NULL,
   PRIMARY KEY(id),
-  FOREIGN KEY (creator) REFERENCES Users(id)
+  CHECK(STRCMP(start_time, end_time) = -1),
+  FOREIGN KEY(creator) REFERENCES Users(id)
 );
 
-CREATE TABLE Friends (
+CREATE TABLE Follow (
   id1 INT NOT NULL,
   id2 INT NOT NULL,
   CONSTRAINT UNIQUE(id1, id2),
   CHECK(id1 <> id2),
-  FOREIGN KEY (id1) REFERENCES Users(id),
-  FOREIGN KEY (id2) REFERENCES Users(id)
+  FOREIGN KEY(id1) REFERENCES Users(id),
+  FOREIGN KEY(id2) REFERENCES Users(id)
 ); -- id1 follows id2
 
 CREATE TABLE Regs (
   event INT NOT NULL,
   user INT NOT NULL,
   CONSTRAINT UNIQUE(event, user),
-  FOREIGN KEY (user) REFERENCES Users(id),
-  FOREIGN KEY (event) REFERENCES Events(id)
+  FOREIGN KEY(user) REFERENCES Users(id),
+  FOREIGN KEY(event) REFERENCES Events(id)
+);
+
+CREATE TABLE Comments (
+  id INT NOT NULL AUTO_INCREMENT,
+  event INT NOT NULL,
+  creator INT NOT NULL,
+  content TEXT,
+  PRIMARY KEY(id),
+  FOREIGN KEY(event) REFERENCES Events(id),
+  FOREIGN KEY(creator) REFERENCES Users(id)
 );

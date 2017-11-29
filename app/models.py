@@ -9,8 +9,6 @@ class User:
         self.id = user_id
 
     def create(self, email, password, username):
-        if self.id is not None:
-            return None
         conn = db.connect()
         cursor = conn.cursor()
         try:
@@ -30,9 +28,9 @@ class User:
         conn = db.connect()
         cursor = conn.cursor()
         if email is None:
-            cursor.execute("SELECT * FROM Users WHERE id={}".format(self.id))
+            cursor.execute("SELECT id, username, email FROM Users WHERE id={}".format(self.id))
         else:
-            cursor.execute("SELECT * FROM Users WHERE email={}".format(email))
+            cursor.execute("SELECT id, username, email FROM Users WHERE email={}".format(email))
         data = cursor.fetchone()
         conn.close()
         return data
@@ -65,11 +63,25 @@ class User:
         return data is not None
 
     def register(self, event_id):
-        if Event(event_id).find() is None:
-            return False
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
+        try:
+            cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
+        except IntegrityError:
+            conn.close()
+            return False
+        conn.commit()
+        conn.close()
+        return True
+
+    def follow(self, user_id):
+        conn = db.connect()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("INSERT INTO Follow (id1, id2) VALUES ({}, {})".format(self.id, user_id))
+        except IntegrityError:
+            conn.close()
+            return False
         conn.commit()
         conn.close()
         return True
@@ -77,7 +89,9 @@ class User:
     def get_followings(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username, email FROM Friends, Users WHERE id1={} AND Users.id=Friends.id2".format(self.id))
+        cursor.execute('''
+            SELECT id, username, email FROM Follow, Users WHERE id1={} AND Users.id=Follow.id2
+            '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -85,7 +99,9 @@ class User:
     def get_followers(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username, email FROM Friends, Users WHERE id2={} AND Users.id=Friends.id1".format(self.id))
+        cursor.execute('''
+            SELECT id, username, email FROM Follow, Users WHERE id2={} AND Users.id=Follow.id1
+            '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -93,7 +109,7 @@ class User:
     def get_following_events(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Events WHERE creator IN (SELECT id2 FROM Friends WHERE id1={})".format(self.id))
+        cursor.execute("SELECT * FROM Events WHERE creator IN (SELECT id2 FROM Follow WHERE id1={})".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -118,6 +134,12 @@ class User:
     def search_user(keyword):
         conn = db.connect()
         cursor = conn.cursor()
+        cursor.execute('''
+            SELECT id, username, email FROM Users WHERE STRCMP('{}', username)=0 OR STRCMP('{}', email)=0
+            '''.format(keyword, keyword))
+        data = cursor.fetchall()
+        conn.close()
+        return data
 
 
 class Event:
@@ -135,15 +157,16 @@ class Event:
         return data
 
     def create(self, creator_id, event_name, event_description, event_location, start_time, end_time):
-        creator = User(creator_id)
-        if not creator.find():
-            return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO Events (name, start_time, end_time, location, description, creator)
-            VALUES ('{}', '{}', '{}', '{}', '{}', '{}')
-            '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
+        try:
+            cursor.execute('''
+                INSERT INTO Events (name, start_time, end_time, location, description, creator)
+                VALUES ('{}', '{}', '{}', '{}', '{}', '{}')
+                '''.format(event_name, start_time, end_time, event_location, event_description, creator_id))
+        except IntegrityError:
+            conn.close()
+            return None
         self.id = cursor.lastrowid
         conn.commit()
         conn.close()
@@ -154,7 +177,9 @@ class Event:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Users WHERE id IN (SELECT user FROM Regs WHERE event={})".format(self.id))
+        cursor.execute('''
+            SELECT id, username, email FROM Users WHERE id IN (SELECT user FROM Regs WHERE event={})
+            '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data

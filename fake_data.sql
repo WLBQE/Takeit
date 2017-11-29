@@ -18,16 +18,16 @@ INSERT INTO Events (name, start_time, end_time, location, description, creator)
 INSERT INTO Events (name, start_time, end_time, location, description, creator)
     VALUES ('8964', '1989-06-04 00:00', '1989-06-04 06:00', 'Tiananmen Square', 'China needs democracy', 4); -- 3
 
-INSERT INTO Friends (id1, id2) VALUES(1, 2);
-INSERT INTO Friends (id1, id2) VALUES(1, 3);
-INSERT INTO Friends (id1, id2) VALUES(1, 4);
-INSERT INTO Friends (id1, id2) VALUES(1, 5);
-INSERT INTO Friends (id1, id2) VALUES(2, 1);
-INSERT INTO Friends (id1, id2) VALUES(3, 1);
-INSERT INTO Friends (id1, id2) VALUES(4, 1);
-INSERT INTO Friends (id1, id2) VALUES(4, 5);
-INSERT INTO Friends (id1, id2) VALUES(5, 1);
-INSERT INTO Friends (id1, id2) VALUES(5, 4);
+INSERT INTO Follow (id1, id2) VALUES(1, 2);
+INSERT INTO Follow (id1, id2) VALUES(1, 3);
+INSERT INTO Follow (id1, id2) VALUES(1, 4);
+INSERT INTO Follow (id1, id2) VALUES(1, 5);
+INSERT INTO Follow (id1, id2) VALUES(2, 1);
+INSERT INTO Follow (id1, id2) VALUES(3, 1);
+INSERT INTO Follow (id1, id2) VALUES(4, 1);
+INSERT INTO Follow (id1, id2) VALUES(4, 5);
+INSERT INTO Follow (id1, id2) VALUES(5, 1);
+INSERT INTO Follow (id1, id2) VALUES(5, 4);
 
 INSERT INTO Regs (event, user) VALUES(1, 3);
 INSERT INTO Regs (event, user) VALUES(2, 3);
