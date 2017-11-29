@@ -8,7 +8,7 @@ from .models import User, Event
 def home():
     if 'userid' in session:
         userid = session['userid']
-        events = User(userid).get_friends_events()
+        events = User(userid).get_following_events()
         creator_name_list = {}
         for e in events:
             creator_id = e[6]
@@ -128,9 +128,9 @@ def create_event():
 def add_friend():
     userid = session['userid']
     userinfo = request.form['userinfo'] # user information returned from search bar
-    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei','lilei@cu.edu']]
+    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei', 'lilei@cu.edu']]
     # userlist.append(userinfo)
-    return render_template('add_friend.html', userlist=userlist,user=userid)
+    return render_template('add_friend.html', userlist=userlist, user=userid)
 
 
 @app.route('/add/<string:useremail>')
@@ -140,10 +140,11 @@ def add(useremail):
 
     return 'Now you have added ' + useremail
 
+
 @app.route('/show_friends/<int:userid>')
 def show_friends(userid):
-    userlist = [['hanmeimei', 'hanmeimei@cu.edu'], ['lilei', 'lilei@cu.edu']] # need include friends' id
-    return render_template('show_friends.html', userlist=userlist,user=userid)
+    userlist = User(userid).get_friends()
+    return render_template('show_friends.html', userlist=userlist, user=userid)
 
 
 

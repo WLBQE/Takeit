@@ -82,7 +82,7 @@ class User:
         conn.close()
         return data
 
-    def get_friends_events(self):
+    def get_following_events(self):
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Events WHERE creator IN (SELECT id2 FROM Friends WHERE id1={})".format(self.id))
@@ -105,6 +105,11 @@ class User:
         data = cursor.fetchall()
         conn.close()
         return data
+
+    @staticmethod
+    def search_user(keyword):
+        conn = db.connect()
+        cursor = conn.cursor()
 
 
 class Event:
