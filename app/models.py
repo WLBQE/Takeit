@@ -32,7 +32,7 @@ class User:
         if email is None:
             cursor.execute("SELECT id, username, email FROM Users WHERE id={}".format(self.id))
         else:
-            cursor.execute("SELECT id, username, email FROM Users WHERE email={}".format(email))
+            cursor.execute("SELECT id, username, email FROM Users WHERE email={}".format(escape_string(email)))
         data = cursor.fetchone()
         conn.close()
         return data
@@ -40,7 +40,7 @@ class User:
     def authenticate(self, email, password):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, password FROM Users WHERE email='{}'".format(email))
+        cursor.execute("SELECT id, password FROM Users WHERE email='{}'".format(escape_string(email)))
         data = cursor.fetchone()
         conn.close()
         if data is None:

@@ -137,10 +137,11 @@ def add_friend():
     userid = session['userid']
     userinfo = request.form['userinfo']
     userlist = User().search_user(userinfo)
-    for user in userlist:
-        if User(userid).check_follow(user[0]) is True:
-            user += (1,)
-        user += (0,)
+    userlist = list(userlist)
+    for i in range(len(userlist)):
+        if User(userid).check_follow(userlist[i][0]) is True:
+            userlist[i] += (1,)
+        userlist[i] += (0,)
     return render_template('add_friend.html', userlist=userlist, user=userid)
 
 
@@ -148,7 +149,7 @@ def add_friend():
 def add(userid):
     if 'userid' not in session:
         return redirect('/login')
-    if User().follow(userid) is False:
+    if User(session['userid']).follow(userid) is False:
         return 'Cannot follow'
     return redirect('/show_friends/%s' % session['userid'])
 
