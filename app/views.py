@@ -143,8 +143,9 @@ def add(useremail):
 
 @app.route('/show_friends/<int:userid>')
 def show_friends(userid):
-    userlist = User(userid).get_friends()
-    return render_template('show_friends.html', userlist=userlist, user=userid)
+    followers = User(userid).get_followers()
+    followings = User(userid).get_followings()
+    return render_template('show_friends.html', followers=followers, followings=followings, user=userid)
 
 
 

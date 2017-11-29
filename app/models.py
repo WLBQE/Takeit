@@ -77,7 +77,7 @@ class User:
     def get_followings(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username FROM Friends, Users WHERE id1={} AND Users.id=Friends.id2".format(self.id))
+        cursor.execute("SELECT id, username, email FROM Friends, Users WHERE id1={} AND Users.id=Friends.id2".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -85,7 +85,7 @@ class User:
     def get_followers(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username FROM Friends, Users WHERE id2={} AND Users.id=Friends.id1".format(self.id))
+        cursor.execute("SELECT id, username, email FROM Friends, Users WHERE id2={} AND Users.id=Friends.id1".format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
