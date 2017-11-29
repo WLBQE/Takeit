@@ -112,6 +112,7 @@ def create_event():
         return redirect('/login')
     form = EventDetailForm()
     userid = session['userid']
+    event_cover_page = request.form['cover_page']
     if form.validate_on_submit():
         start_time = form.start_date.data
         end_time = form.end_date.data
