@@ -147,4 +147,8 @@ def show_friends(userid):
     return render_template('show_friends.html', userlist=userlist, user=userid)
 
 
+@app.route('/change_profile')
+def change_profile():
+    userid = session['userid']
+    return render_template('change_profile.html',user=userid)
 
