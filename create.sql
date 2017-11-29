@@ -29,7 +29,7 @@ CREATE TABLE Friends (
   CONSTRAINT UNIQUE(id1, id2),
   FOREIGN KEY (id1) REFERENCES Users(id),
   FOREIGN KEY (id2) REFERENCES Users(id)
-);
+); -- id1 follows id2
 
 CREATE TABLE Regs (
   event INT NOT NULL,
