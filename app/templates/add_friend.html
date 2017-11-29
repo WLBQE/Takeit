@@ -29,13 +29,13 @@ Demo App
           <div class="caption">
              <div class="media">
                 <div class="media-left">
-                  <h4 class="media-heading">{{ item[0] }}</h4>
+                  <h4 class="media-heading">{{ item[1] }}</h4>
                 </div>
                 <div class="media-body media-left">
-                    <h4 class="media-heading">{{ item[1] }}</h4>
+                    <h4 class="media-heading">{{ item[2] }}</h4>
                 </div>
                  <div class="media-right" >
-                    <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'add', useremail = item[1] ) }}';">ADD</button>
+                    <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'add', userid = item[0] ) }}';">ADD</button>
                 </div>
         </div>
       </div>
