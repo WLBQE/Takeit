@@ -12,8 +12,9 @@ class User:
         conn = db.connect()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO Users (email, password, username) VALUES('{}', '{}', '{}')"
-                           .format(email, bcrypt.encrypt(password), username))
+            cursor.execute('''
+                INSERT INTO Users (email, password, username) VALUES('{}', '{}', '{}')
+                '''.format(email, bcrypt.encrypt(password), username))
         except IntegrityError:
             conn.close()
             return None
@@ -159,8 +160,8 @@ class User:
         cursor = conn.cursor()
         try:
             cursor.execute('''
-              INSERT INTO Comments (event, creator, content) VALUES ({}, {}, '{}')
-              '''.format(event_id, self.id, content))
+                INSERT INTO Comments (event, creator, content) VALUES ({}, {}, '{}')
+                '''.format(event_id, self.id, content))
         except IntegrityError:
             conn.close()
             return False
@@ -211,12 +212,21 @@ class Event:
         return self.id
 
     def get_participants(self):
-        if not self.find():
-            return None
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute('''
             SELECT id, username, email FROM Users WHERE id IN (SELECT user FROM Regs WHERE event={})
+            '''.format(self.id))
+        data = cursor.fetchall()
+        conn.close()
+        return data
+
+    def get_comments(self):
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT Users.id, username, content FROM Users, Comments
+            WHERE Users.id=Comments.creator AND Comments.event={}
             '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
