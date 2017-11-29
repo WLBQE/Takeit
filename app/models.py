@@ -30,9 +30,9 @@ class User:
         conn = db.connect()
         cursor = conn.cursor()
         if email is None:
-            cursor.execute("SELECT * FROM Users WHERE id={}".format(self.id))
+            cursor.execute("SELECT id, username, email FROM Users WHERE id={}".format(self.id))
         else:
-            cursor.execute("SELECT * FROM Users WHERE email={}".format(email))
+            cursor.execute("SELECT id, username, email FROM Users WHERE email={}".format(email))
         data = cursor.fetchone()
         conn.close()
         return data
@@ -77,7 +77,9 @@ class User:
     def get_followings(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username, email FROM Friends, Users WHERE id1={} AND Users.id=Friends.id2".format(self.id))
+        cursor.execute('''
+            SELECT id, username, email FROM Friends, Users WHERE id1={} AND Users.id=Friends.id2
+            '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -85,7 +87,9 @@ class User:
     def get_followers(self):
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, username, email FROM Friends, Users WHERE id2={} AND Users.id=Friends.id1".format(self.id))
+        cursor.execute('''
+            SELECT id, username, email FROM Friends, Users WHERE id2={} AND Users.id=Friends.id1
+            '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
@@ -118,6 +122,12 @@ class User:
     def search_user(keyword):
         conn = db.connect()
         cursor = conn.cursor()
+        cursor.execute('''
+            SELECT id, username, email FROM Users WHERE STRCMP('{}', username)=0 OR STRCMP('{}', email)=0
+            '''.format(keyword, keyword))
+        data = cursor.fetchall()
+        conn.close()
+        return data
 
 
 class Event:
@@ -154,7 +164,9 @@ class Event:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Users WHERE id IN (SELECT user FROM Regs WHERE event={})".format(self.id))
+        cursor.execute('''
+            SELECT id, username, email FROM Users WHERE id IN (SELECT user FROM Regs WHERE event={})
+            '''.format(self.id))
         data = cursor.fetchall()
         conn.close()
         return data
