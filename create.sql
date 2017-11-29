@@ -24,7 +24,7 @@ CREATE TABLE Events (
   FOREIGN KEY (creator) REFERENCES Users(id)
 );
 
-CREATE TABLE Friends (
+CREATE TABLE Follow (
   id1 INT NOT NULL,
   id2 INT NOT NULL,
   CONSTRAINT UNIQUE(id1, id2),
