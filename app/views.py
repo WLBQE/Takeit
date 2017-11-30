@@ -3,6 +3,7 @@ from app import app
 from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
 import os
+from pprint import pprint
 
 
 @app.route('/home')
@@ -160,9 +161,12 @@ def show_friends(userid):
     return render_template('show_friends.html', followers=followers, followings=followings, user=userid)
 
 
-@app.route('/change_profile')
+@app.route('/change_profile', methods=['GET', 'POST'])
 def change_profile():
     userid = session['userid']
+    # picture = request.files['picture']
+    # if picture:
+    #     picture.save(os.path.join(app.config['UPLOAD_FOLDER'], picture.filename))
     return render_template('change_profile.html', user=userid)
 
 
@@ -171,3 +175,15 @@ def add_comment(eventid):
     comment = request.form['comment']
     if comment:
         return redirect('/event_detail/%d' % eventid)
+
+
+@app.route('/really_change', methods=['GET', 'POST'])
+def really_change():
+    userid = session['userid']
+    if request.method == "POST":
+        file = request.files['file']
+        pprint(request.files)
+        if file:
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            return 'file uploaded successfully'
+    return render_template('change_profile.html', user=userid)
