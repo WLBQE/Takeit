@@ -1,5 +1,6 @@
 import unittest
 from app import app, db
+from app.models import User, Event
 
 
 class Tests(unittest.TestCase):
@@ -24,6 +25,29 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.run_sql_file('create.sql')
         self.run_sql_file('fake_data.sql')
+
+    # tests for model
+    def test_user_create_auth(self):
+        create = User().create('testuser@te.st', 'password', 'test user')
+        self.assertEqual(create, 6)
+        auth = User().authenticate('testuser@te.st', 'password')
+        self.assertIsNotNone(auth)
+        self.assertEqual(auth[0], 6)
+        self.assertEqual(auth[1], 'test user')
+        invalid = User().authenticate('hacker@ha.ck', 'intruding')
+        self.assertIsNone(invalid)
+
+    def test_user_find(self):
+        user = User(1).find()
+        self.assertIsNotNone(user)
+        self.assertEqual(user[0], 1)
+        self.assertEqual(user[1], 'Xi Jinping')
+        self.assertEqual(user[2], 'xjp@ccp.gov')
+
+    def test_user_check_register(self):
+        self.assertTrue(User(1).check_register(1))
+        self.assertTrue(User(3).check_register(1))
+        self.assertFalse(User(1).check_register(2))
 
     # test for view
     def login(self, email, password):

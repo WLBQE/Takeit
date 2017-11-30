@@ -24,15 +24,12 @@ class User:
         conn.close()
         return self.id
 
-    def find(self, email=None):
+    def find(self):
         if self.id is None:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        if email is None:
-            cursor.execute("SELECT id, username, email FROM Users WHERE id={}".format(self.id))
-        else:
-            cursor.execute("SELECT id, username, email FROM Users WHERE email={}".format(escape_string(email)))
+        cursor.execute("SELECT id, username, email FROM Users WHERE id={}".format(self.id))
         data = cursor.fetchone()
         conn.close()
         return data
