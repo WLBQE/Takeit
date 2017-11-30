@@ -22,13 +22,24 @@ Demo App
 
 
 <div class="container">
-  <div class="starter-template">
-    <h1>Add Friends</h1>
-        <p class="lead">THIS IS THE Friends DETAIL USER WILL SEE AFTER CLICK EVENT DETAIL<br> BELOW ARE THE Friends DETAIL</p>
+<form class="bs-example bs-example-form" method="POST" action='/really_change' enctype="multipart/form-data" >
 
-<div class="profile">
+  <div class="starter-template">
+<h1>Change Avatar Picture</h1>
+      <br>
+      <br>
+      <br>
+
+      <center>
+<div class="profile" align="center">
         <div class="photo">
-            <input type="file" accept="image/*">
+
+        <label class="btn btn-default">
+            Upload Cover Page <input style="display: none !important; " name = "file" type="file" >
+        </label>
+
+
+            <input type="file"  accept="image/*">
             <div class="photo__helper">
                 <div class="photo__frame photo__frame--circle">
                     <canvas class="photo__canvas"></canvas>
@@ -61,14 +72,18 @@ Demo App
             </div>
         </div>
     </div>
+</center>
 
     <hr>
     <button type="button" id="previewBtn">Preview</button>
     <hr>
     <img src="" alt="" class="preview">
     <img src="" alt="" class="preview preview--rounded">
-
+{#    <input type="file" name="picture" src="" alt="" class="preview preview--rounded" >#}
+{#    <button class="btn btn-default btn-lg" type="submit">Create this event</button>#}
+        <input type=submit value=Upload>
   </div>
+</form>
 </div><!-- /.container -->
 
 {% endblock %}

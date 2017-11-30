@@ -55,16 +55,16 @@
   color: transparent;
 }
 .photo__zoom input[type=range]:focus::-ms-thumb {
-  border-color: #268eff;
-  box-shadow: 0 0 1px 0px #268eff;
+  border-color: #999999;
+  box-shadow: 0 0 1px 0px #999999;
 }
 .photo__zoom input[type=range]:focus::-moz-range-thumb {
-  border-color: #268eff;
-  box-shadow: 0 0 1px 0px #268eff;
+  border-color: #999999;
+  box-shadow: 0 0 1px 0px #999999;
 }
 .photo__zoom input[type=range]:focus::-webkit-slider-thumb {
-  border-color: #268eff;
-  box-shadow: 0 0 1px 0px #268eff;
+  border-color: #999999;
+  box-shadow: 0 0 1px 0px #999999;
 }
 .photo__zoom input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -238,7 +238,7 @@
   top: 50%;
   transform: translateY(-50%);
   display: inline-block;
-  color: #268eff;
+  color: #999999;
   z-index: 3;
 }
 .photo__frame .is-dragover {
@@ -308,7 +308,7 @@
   display: inline-block;
 }
 .photo--empty .photo__frame:hover {
-  background: #268eff;
+  background: #999999;
 }
 .photo--empty .photo__frame:hover .message {
   color: #fff;
