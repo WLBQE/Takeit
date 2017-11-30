@@ -39,6 +39,21 @@ Demo App
 
    <hr>
     <small>{{ event[5] }}</small>
+<br><br><br><br><br><br><br><br><br><br><br>
+
+
+    {% if participants %}
+        <p>Following are participants</p>
+        {% for item in participants -%}
+        <small>{{ item[1] }}</small>
+        <br>
+         {%- endfor %}
+    {% else %}
+        <p>No participants yet</p>
+     {% endif %}
+
+
+
 
 <br>
 <br>

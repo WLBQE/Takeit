@@ -189,5 +189,5 @@ def really_change():
         pprint(request.files)
         if file:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            return 'file uploaded successfully'
+            return app.config['UPLOAD_FOLDER'] + file.filename
     return render_template('change_profile.html', user=userid, username=session['username'])
