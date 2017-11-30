@@ -40,9 +40,7 @@ class Tests(unittest.TestCase):
     def test_user_find(self):
         user = User(1).find()
         self.assertIsNotNone(user)
-        self.assertEqual(user[0], 1)
-        self.assertEqual(user[1], 'Xi Jinping')
-        self.assertEqual(user[2], 'xjp@ccp.gov')
+        self.assertTupleEqual(user, (1, 'Xi Jinping', 'xjp@ccp.gov'))
 
     def test_user_check_register(self):
         self.assertTrue(User(1).check_register(1))
@@ -71,8 +69,31 @@ class Tests(unittest.TestCase):
         self.assertFalse(User(2).follow(3))
         self.assertFalse(User(2).follow(2))
         self.assertFalse(User(2).follow(1))
+        self.assertFalse(User(123).follow(1))
 
-    # test for view
+    def test_user_unfollow(self):
+        self.assertTrue(User(1).check_follow(2))
+        User(1).unfollow(2)
+        self.assertFalse(User(1).check_follow(2))
+
+    def test_user_get_followings(self):
+        users = User(1).get_followings()
+        self.assertTupleEqual(users, ((2, 'Li Hongzhi', 'lhz@falundafa.org'), (3, 'Jiang Zemin', 'haha@zhangzhe.wang'),
+                                      (4, 'Liu Xiaobo', 'lxb@anticcp.com'), (5, 'Wang Dan', 'wangdan@pku.edu.cn')))
+
+    def test_user_get_followers(self):
+        users = User(1).get_followers()
+        self.assertTupleEqual(users, ((2, 'Li Hongzhi', 'lhz@falundafa.org'), (3, 'Jiang Zemin', 'haha@zhangzhe.wang'),
+                                      (4, 'Liu Xiaobo', 'lxb@anticcp.com'), (5, 'Wang Dan', 'wangdan@pku.edu.cn')))
+
+    def test_user_get_following_events(self):
+        events = User(1).get_following_events()
+        self.assertTupleEqual(events, ((2, 'Falun Dafa', '1997-10-01 00:00', '1997-10-01 23:59', 'Xinghai Square',
+                                        'Falun Dafa is good', 2),
+                                       (3, '8964', '1989-06-04 00:00', '1989-06-04 06:00', 'Tiananmen Square',
+                                        'China needs democracy', 4)))
+
+    # tests for view
     def login(self, email, password):
         return self.app.post('/login', data=dict(
             email=email,
