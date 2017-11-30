@@ -19,7 +19,7 @@ def home():
                 if creator is None:
                     return abort(501)
                 creator_name_list[creator_id] = creator[1]
-        return render_template('home.html', user=userid, event_list=events, creators=creator_name_list)
+        return render_template('home.html', user=userid, username=session['username'], event_list=events, creators=creator_name_list)
     return redirect('/login')
 
 
@@ -81,7 +81,7 @@ def profile(userid):
 
     return render_template('profile.html', current_user=session['userid'], user_profile=user,
                            event_created=events_created, events_participated=events_participated,
-                           creators=creator_name_list, user=userid)
+                           creators=creator_name_list, user=userid, username=session['username'])
 
 
 @app.route('/register/<int:eventid>')
@@ -106,7 +106,8 @@ def event_detail(eventid):
     else:
         registered = False
     participants = Event(eventid).get_participants()
-    return render_template('event_detail.html', event=event, user=session['userid'], participants=participants, registered=registered)
+    return render_template('event_detail.html', event=event, user=session['userid'], username=session['username'],
+                           participants=participants, registered=registered)
 
 
 @app.route('/create_event', methods=['GET', 'POST'])
@@ -130,7 +131,7 @@ def create_event():
             file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
         return redirect('/profile/%d' % session['userid'])
 
-    return render_template('create_event.html', form=form, user=userid)
+    return render_template('create_event.html', form=form, user=userid, username=session['username'])
 
 
 @app.route('/add_friend', methods=['GET', 'POST'])
@@ -144,7 +145,7 @@ def add_friend():
             userlist[i] += (1,)
         else:
             userlist[i] += (0,)
-    return render_template('add_friend.html', userlist=userlist, user=userid)
+    return render_template('add_friend.html', userlist=userlist, user=userid, username=session['username'])
 
 
 @app.route('/add/<string:userid>')
@@ -160,7 +161,8 @@ def add(userid):
 def show_friends(userid):
     followers = User(userid).get_followers()
     followings = User(userid).get_followings()
-    return render_template('show_friends.html', followers=followers, followings=followings, user=userid)
+    return render_template('show_friends.html', followers=followers, followings=followings, user=userid,
+                           username=session['username'])
 
 
 @app.route('/change_profile', methods=['GET', 'POST'])
@@ -169,7 +171,7 @@ def change_profile():
     # picture = request.files['picture']
     # if picture:
     #     picture.save(os.path.join(app.config['UPLOAD_FOLDER'], picture.filename))
-    return render_template('change_profile.html', user=userid)
+    return render_template('change_profile.html', user=userid, username=session['username'])
 
 
 @app.route('/add_comment/<int:eventid>', methods=['GET', 'POST'])
@@ -188,4 +190,4 @@ def really_change():
         if file:
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
             return 'file uploaded successfully'
-    return render_template('change_profile.html', user=userid)
+    return render_template('change_profile.html', user=userid, username=session['username'])
