@@ -29,9 +29,10 @@ def login():
         return redirect('/home')
     form = LoginForm()
     if form.validate_on_submit():
-        userid = User().authenticate(form.email.data, form.password.data)
-        if userid is not None:
-            session['userid'] = userid
+        user = User().authenticate(form.email.data, form.password.data)
+        if user is not None:
+            session['userid'] = user[0]
+            session['username'] = user[1]
             return redirect('/home')
         else:
             return redirect('/login')
@@ -103,7 +104,6 @@ def event_detail(eventid):
         registered = True
     else:
         registered = False
-
     participants = Event(eventid).get_participants()
     return render_template('event_detail.html', event=event, user=session['userid'], participants=participants, registered=registered)
 
@@ -120,13 +120,12 @@ def create_event():
         end_time = form.end_date.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
-        if eventid is not None:
-            return redirect('/home')
+        # TODO: cannot upload
         file = request.files['file']
-        if file:
-            fname = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(fname)
-            os.rename(fname, os.path.join(app.config['UPLOAD_FOLDER'], eventid + '.jpg'))
+        #if file:
+        fname = os.path.join('/Users/lee/Desktop/Software_Engineering/Takeit/app/static/event_picture/', file.filename)
+        file.save(fname)
+            #os.rename(fname, os.path.join(app.config['UPLOAD_FOLDER'], eventid + '.jpg'))
         return redirect('/create_event')
 
     return render_template('create_event.html', form=form, user=userid)
@@ -151,7 +150,7 @@ def add(userid):
         return redirect('/login')
     if User(session['userid']).follow(userid) is False:
         return 'Cannot follow'
-    return redirect('/show_friends/%s' % session['userid'])
+    return redirect('/show_friends/%d' % session['userid'])
 
 
 @app.route('/show_friends/<int:userid>')
@@ -166,8 +165,9 @@ def change_profile():
     userid = session['userid']
     return render_template('change_profile.html', user=userid)
 
+
 @app.route('/add_comment/<int:eventid>', methods=['GET', 'POST'])
 def add_comment(eventid):
     comment = request.form['comment']
     if comment:
-        return comment
+        return redirect('/event_detail/%d' % eventid)
