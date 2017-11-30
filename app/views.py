@@ -126,12 +126,13 @@ def create_event():
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         # TODO: cannot upload
-        file = request.files['file']
-        if file:
-            splitlist = file.filename.split('.')
-            format = splitlist[-1]
-            file.filename = str(eventid) + '.' + format
-            file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+        if request.files:
+            file = request.files['file']
+            if file:
+                splitlist = file.filename.split('.')
+                format = splitlist[-1]
+                file.filename = str(eventid) + '.' + format
+                file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
         return redirect('/profile/%d' % session['userid'])
 
     return render_template('create_event.html', form=form, user=userid, username=session['username'])
