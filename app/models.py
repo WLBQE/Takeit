@@ -93,7 +93,7 @@ class User:
         cursor.execute("SELECT * FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
         data = cursor.fetchall()
         conn.close()
-        return data is not None
+        return len(data) > 0
 
     def follow(self, user_id):
         conn = db.connect()
