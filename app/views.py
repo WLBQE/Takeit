@@ -142,7 +142,8 @@ def add_friend():
     for i in range(len(userlist)):
         if User(userid).check_follow(userlist[i][0]) is True:
             userlist[i] += (1,)
-        userlist[i] += (0,)
+        else:
+            userlist[i] += (0,)
     return render_template('add_friend.html', userlist=userlist, user=userid)
 
 
