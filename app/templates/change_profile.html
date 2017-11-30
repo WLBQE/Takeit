@@ -12,40 +12,6 @@ Demo App
 <link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
 <link rel="stylesheet" href="{{url_for('.static', filename='change_profile.css')}}">
 <script type="text/javascript" src="{{ url_for("static",filename="change_profile.js") }}" charset="UTF-8"></script>
-<script>
-function doAnalysis(action) {
-var x = document.getElementById("uploadedFile");
-var file = x.files[0];
-clear_display();
-display_file(file, action);
-var formData = new FormData();
-formData.append('uploadfile', file, file.name);
-var xhr = new XMLHttpRequest();
-var url = "/really_change";
-xhr.open("POST", url, true);
-xhr.onload = function() {
-if (xhr.status === 200) {
-//
-} else {
-alert('An error occurred, upload failed!');
-}
-};
-xhr.send(formData);
-}
-
-function clear_display() {
-var result_display = document.getElementById("result_display");
-var file_display = document.getElementById('file_display');
-result_display.innerHTML = "";
-file_display.innerHTML = "";
-}
-
-function display_file(file) {
-var file_display = document.getElementById('file_display');
-var src = URL.createObjectURL(file);
-file_display.innerHTML = ['< img style="width:100%" src="', src, '"/>'].join('');
-}
-</script>
 
 {% endblock %}
 
@@ -64,9 +30,40 @@ file_display.innerHTML = ['< img style="width:100%" src="', src, '"/>'].join('')
       <br>
 <input type="file" id="uploadedFile" onchange="doAnalysis()">
 <div id="file_display"></div>
-<div id="result_display"></div>
 
   </div>
 </div><!-- /.container -->
 
+<script>
+    function doAnalysis() {
+        var x = document.getElementById("uploadedFile");
+        var file = x.files[0];
+
+        display_file(file);
+
+        var formData = new FormData();
+        formData.append('file', file, file.name);
+
+        var xhr = new XMLHttpRequest();
+        var url = "/really_change";
+
+        xhr.open("POST", url, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+{#            xhr.responseText#}
+            } else {
+                alert('An error occurred, upload failed!');
+            }
+        };
+        xhr.send(formData);
+    }
+
+    function display_file(file) {
+        var file_display = document.getElementById('file_display');
+        var src = URL.createObjectURL(file);
+
+        file_display.innerHTML = "";
+        file_display.innerHTML = ['<img style="width: 100px" src="', src, '"/>'].join('');
+    }
+</script>
 {% endblock %}

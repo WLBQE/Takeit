@@ -196,6 +196,6 @@ def really_change():
         file = request.files['file']
         pprint(request.files)
         if file:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            return app.config['UPLOAD_FOLDER'] + file.filename
+            file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+            # return 'saved'
     return render_template('change_profile.html', user=userid, username=session['username'])
