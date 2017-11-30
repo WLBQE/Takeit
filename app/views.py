@@ -123,11 +123,11 @@ def create_event():
                                  start_time, end_time)
         # TODO: cannot upload
         file = request.files['file']
-        #if file:
-        fname = os.path.join('/Users/lee/Desktop/Software_Engineering/Takeit/app/static/event_picture/', file.filename)
-        file.save(fname)
-            #os.rename(fname, os.path.join(app.config['UPLOAD_FOLDER'], eventid + '.jpg'))
-        return redirect('/create_event')
+        if file:
+            fname, fformat = file.filename.split('.')
+            file.filename = str(eventid) + '.' + fformat
+            file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+        return redirect('/profile/%d' % session['userid'])
 
     return render_template('create_event.html', form=form, user=userid)
 
