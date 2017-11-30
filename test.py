@@ -32,8 +32,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(create, 6)
         auth = User().authenticate('testuser@te.st', 'password')
         self.assertIsNotNone(auth)
-        self.assertEqual(auth[0], 6)
-        self.assertEqual(auth[1], 'test user')
+        self.assertTupleEqual(auth, (6, 'test user'))
         invalid = User().authenticate('hacker@ha.ck', 'intruding')
         self.assertIsNone(invalid)
 

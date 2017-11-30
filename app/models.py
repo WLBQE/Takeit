@@ -46,7 +46,7 @@ class User:
         if not bcrypt.verify(password, password_encrypted):
             return None
         self.id = data[0]
-        return data
+        return data[0], data[1]
 
     def check_register(self, event_id):
         event = Event(event_id).find()
