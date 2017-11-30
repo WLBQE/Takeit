@@ -124,8 +124,9 @@ def create_event():
         # TODO: cannot upload
         file = request.files['file']
         if file:
-            fname, fformat = file.filename.split('.')
-            file.filename = str(eventid) + '.' + fformat
+            splitlist = file.filename.split('.')
+            format = splitlist[-1]
+            file.filename = str(eventid) + '.' + format
             file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
         return redirect('/profile/%d' % session['userid'])
 
