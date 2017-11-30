@@ -5,8 +5,6 @@ from .models import User, Event
 import os
 from pprint import pprint
 
-UPLOAD_FOLDER = '/Users/yinanji/Dropbox/ASE/TEST/ToySystem'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/home')
 def home():
@@ -123,11 +121,13 @@ def create_event():
         end_time = form.end_date.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
-        file = request.files['file']
-        if file:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         if eventid is not None:
             return redirect('/home')
+        file = request.files['file']
+        if file:
+            fname = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(fname)
+            os.rename(fname, os.path.join(app.config['UPLOAD_FOLDER'], eventid + '.jpg'))
         return redirect('/create_event')
 
     return render_template('create_event.html', form=form, user=userid)
