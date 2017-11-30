@@ -36,7 +36,7 @@ Demo App
                 </div>
                  <div class="media-right" >
 {#                    <p>{{ item[3] }} </p>#}
-                         {% if item[3]  %}
+                         {% if item[3] == 0 %}
                             <button class="btn btn-primary pull-right" type="button" disabled="disabled">Added</button>
                         {% else %}
                     <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'add', userid = item[0] ) }}';">ADD</button>
