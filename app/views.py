@@ -44,7 +44,8 @@ def login():
 @app.route('/logout')
 def logout():
     if 'userid' in session:
-        session.pop('userid', None)
+        session.pop('userid')
+        session.pop('username')
     return redirect('/login')
 
 
@@ -55,6 +56,7 @@ def signup():
         userid = User().create(form.email.data, form.password.data, form.username.data)
         if userid is not None:
             session['userid'] = userid
+            session['username'] = form.username.data
             return redirect('/home')
         return redirect('/signup')
 

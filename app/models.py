@@ -88,6 +88,8 @@ class User:
         conn.close()
 
     def check_follow(self, user_id):
+        if user_id == self.id:
+            return True
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
