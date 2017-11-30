@@ -62,6 +62,8 @@ class User:
         return data is not None
 
     def register(self, event_id):
+        if self.check_register(event_id):
+            return False
         conn = db.connect()
         cursor = conn.cursor()
         try:
