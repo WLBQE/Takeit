@@ -5,3 +5,5 @@ venv/
 __pycache__/
 git.zsh
 log_file.txt
+app/static/event_picture/
+app/static/user_picture/
