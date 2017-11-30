@@ -140,6 +140,8 @@ def create_event():
 
 @app.route('/add_friend', methods=['GET', 'POST'])
 def add_friend():
+    if 'userid' not in session:
+        return redirect('/login')
     userid = session['userid']
     userinfo = request.form['userinfo']
     userlist = User().search_user(userinfo)
@@ -163,6 +165,10 @@ def add(userid):
 
 @app.route('/show_friends/<int:userid>')
 def show_friends(userid):
+    if 'userid' not in session:
+        return redirect('/login')
+    if session['userid'] is not userid:
+        return redirect('/login')
     followers = User(userid).get_followers()
     followings = User(userid).get_followings()
     return render_template('show_friends.html', followers=followers, followings=followings, user=userid,
@@ -188,6 +194,8 @@ def add_comment(eventid):
         if User(userid).post_comment(eventid, comment) is False:
             return 'cannot post comment'
         return redirect('/event_detail/%d' % eventid)
+    # TODO: restrain comment input
+    return 'You cannot submit nothing'
 
 
 @app.route('/really_change', methods=['GET', 'POST'])

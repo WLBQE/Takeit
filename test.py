@@ -108,7 +108,7 @@ class Tests(unittest.TestCase):
             end_date=end_time,
             location=location,
             description=description
-        ))
+        ), follow_redirects=True)
 
     def test_login_success(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
@@ -166,16 +166,61 @@ class Tests(unittest.TestCase):
 
     def test_create_event_no_session(self):
         rv = self.create_event('20 Da', '2022-10-01 10:00', '2022-10-07 10:00', 'Renmindahuitang', 'hello world')
-        self.assertEqual(rv.status_code, 302)
+        self.assertEqual(rv.status_code, 200)
         self.assertIn(b'login', rv.data)
 
     def test_create_event(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.create_event('20 Da', '2022-10-01 10:00', '2022-10-07 10:00', 'Renmindahuitang', 'hello world')
-        self.assertEqual(rv.status_code, 302)
+        self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/profile/1', follow_redirects=True)
         self.assertIn(b'20 Da', rv.data)
+
+    def test_add_friend_no_session(self):
+        rv = self.app.get('/add_friend', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
+    def test_add_friend(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.post('/add_friend', data=dict(
+            userinfo='Li Hongzhi'
+        ))
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Li Hongzhi', rv.data)
+
+    def test_add_no_session(self):
+        rv = self.app.get('/add/3', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
+    def test_show_friends_no_session(self):
+        rv = self.app.get('/show_friends/1', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
+    def test_show_friends(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/show_friends/1', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Jiang Zemin', rv.data)
+
+    def test_add_comment_no_session(self):
+        rv = self.app.get('/add_comment/1', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
+    def test_add_comment_(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.post('/add_comment/1', data=dict(
+            comment='hahaha'
+        ), follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'hahaha', rv.data)
 
 
 if __name__ == "__main__":
