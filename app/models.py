@@ -43,7 +43,7 @@ class User:
         cursor.execute("SELECT id, username, password FROM Users WHERE email='{}'".format(escape_string(email)))
         data = cursor.fetchone()
         conn.close()
-        if not data:
+        if data is None:
             return None
         password_encrypted = data[2]
         if not bcrypt.verify(password, password_encrypted):
@@ -53,7 +53,7 @@ class User:
 
     def check_register(self, event_id):
         event = Event(event_id).find()
-        if not event:
+        if event is None:
             return False
         if event[6] == self.id:
             return True
@@ -62,7 +62,7 @@ class User:
         cursor.execute("SELECT * FROM Regs WHERE event={} AND user={}".format(event_id, self.id))
         data = cursor.fetchone()
         conn.close()
-        return any(data)
+        return data is not None
 
     def register(self, event_id):
         conn = db.connect()
@@ -91,9 +91,9 @@ class User:
         conn = db.connect()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
-        data = cursor.fetchall()
+        data = cursor.fetchone()
         conn.close()
-        return any(data)
+        return data is not None
 
     def follow(self, user_id):
         conn = db.connect()
