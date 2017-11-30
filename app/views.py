@@ -140,7 +140,7 @@ def add_friend():
     userlist = User().search_user(userinfo)
     userlist = list(userlist)
     for i in range(len(userlist)):
-        if User(userid).check_follow(userlist[i][0]) is True:
+        if User(userid).check_follow(userlist[i][0]):
             userlist[i] += (1,)
         else:
             userlist[i] += (0,)
