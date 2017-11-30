@@ -9,7 +9,8 @@ class Tests(unittest.TestCase):
         app.config['WTF_CSRF_ENABLED'] = False
         self.app = app.test_client()
 
-    def run_sql_file(self, filename):
+    @staticmethod
+    def run_sql_file(filename):
         sqlfile = open(filename, 'r')
         sql = " ".join(sqlfile.readlines())
         connection = db.connect()
