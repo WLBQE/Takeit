@@ -8,6 +8,8 @@ MYSQL_DATABASE_HOST = 'localhost'
 
 EVENT_PICTURE = os.path.join(basedir, 'app/static/event_picture')
 USER_PICTURE = os.path.join(basedir, 'app/static/user_picture')
+DEFAULT_USER_PIC = os.path.join(USER_PICTURE, 'default_avatar.png')
+DEFAULT_EVENT_PIC = os.path.join(EVENT_PICTURE, 'default_cover_picture.png')
 
 TEST = True
 
