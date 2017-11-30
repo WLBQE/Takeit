@@ -97,6 +97,8 @@ class User:
         return data is not None
 
     def follow(self, user_id):
+        if self.id == user_id:
+            return False
         conn = db.connect()
         cursor = conn.cursor()
         try:
@@ -204,6 +206,8 @@ class Event:
         return data
 
     def create(self, creator_id, event_name, event_description, event_location, start_time, end_time):
+        if start_time >= end_time:
+            return None
         conn = db.connect()
         cursor = conn.cursor()
         try:

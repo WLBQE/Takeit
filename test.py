@@ -54,6 +54,7 @@ class Tests(unittest.TestCase):
         self.assertFalse(User(1).register(2))
         self.assertFalse(User(1).register(1))
         self.assertFalse(User(3).register(1))
+        self.assertFalse(User(1).register(12345))
 
     def test_user_unregister(self):
         self.assertTrue(User(3).check_register(1))
@@ -64,6 +65,12 @@ class Tests(unittest.TestCase):
         self.assertTrue(User(1).check_follow(1))
         self.assertTrue(User(1).check_follow(2))
         self.assertFalse(User(2).check_follow(3))
+
+    def test_user_follow(self):
+        self.assertTrue(User(2).follow(3))
+        self.assertFalse(User(2).follow(3))
+        self.assertFalse(User(2).follow(2))
+        self.assertFalse(User(2).follow(1))
 
     # test for view
     def login(self, email, password):
