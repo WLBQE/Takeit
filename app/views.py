@@ -106,8 +106,9 @@ def event_detail(eventid):
     else:
         registered = False
     participants = Event(eventid).get_participants()
+    comments = Event(eventid).get_comments()
     return render_template('event_detail.html', event=event, user=session['userid'], username=session['username'],
-                           participants=participants, registered=registered)
+                           participants=participants, registered=registered, comments=comments)
 
 
 @app.route('/create_event', methods=['GET', 'POST'])
@@ -176,8 +177,13 @@ def change_profile():
 
 @app.route('/add_comment/<int:eventid>', methods=['GET', 'POST'])
 def add_comment(eventid):
+    if 'userid' not in session:
+        return redirect('/login')
+    userid = session['userid']
     comment = request.form['comment']
     if comment:
+        if User(userid).post_comment(eventid, comment) is False:
+            return 'cannot post comment'
         return redirect('/event_detail/%d' % eventid)
 
 
