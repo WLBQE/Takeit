@@ -3,34 +3,34 @@ Messages
 
 app/__init__.py
   Line: 12
-    pylint: wrong-import-position / Import "from app import views, models" should be placed at the top of the module
-    pyflakes: F401 / 'app.views' imported but unused (col 1)
+    pylint: wrong-import-position / Import "from app import views, models" should be placed at the top of the module (FALSE POSITIVE)
+    pyflakes: F401 / 'app.views' imported but unused (col 1) (FALSE POSITIVE)
 
 app/forms.py
   Line: 2
-    pylint: unused-import / Unused BooleanField imported from wtforms
+    pylint: unused-import / Unused BooleanField imported from wtforms (FIXED)
 
 app/models.py
   Line: 208
-    pylint: too-many-arguments / Too many arguments (7/5) (col 4)
+    pylint: too-many-arguments / Too many arguments (7/5) (col 4) (NOT FIXED YET)
 
 app/views.py
   Line: 1
-    pylint: cyclic-import / Cyclic import (app -> app.views -> app.models)
-    pylint: cyclic-import / Cyclic import (app -> app.views)
-    pylint: cyclic-import / Cyclic import (app -> app.models)
+    pylint: cyclic-import / Cyclic import (app -> app.views -> app.models) (NOT FIXED YET)
+    pylint: cyclic-import / Cyclic import (app -> app.views) (NOT FIXED YET)
+    pylint: cyclic-import / Cyclic import (app -> app.models) (NOT FIXED YET)
   Line: 34
-    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8) (FIXED)
   Line: 106
-    pylint: simplifiable-if-statement / The if statement can be replaced with 'var = bool(test)' (col 4)
+    pylint: simplifiable-if-statement / The if statement can be replaced with 'var = bool(test)' (col 4) (FIXED)
   Line: 133
-    pylint: redefined-builtin / Redefining built-in 'format' (col 16)
+    pylint: redefined-builtin / Redefining built-in 'format' (col 16) (FIXED)
   Line: 149
-    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 4)
+    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 4) (NOT FIXED YET)
 
 config.py
   Line: 5
-    dodgy: password / Possible hardcoded password
+    dodgy: password / Possible hardcoded password (NOT FIXED YET)
 
 
 
