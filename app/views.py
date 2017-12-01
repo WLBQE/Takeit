@@ -19,7 +19,8 @@ def home():
                 if creator is None:
                     return abort(501)
                 creator_name_list[creator_id] = creator[1]
-        return render_template('home.html', user=userid, username=session['username'], event_list=events, creators=creator_name_list)
+        return render_template('home.html', user=userid, username=session['username'], event_list=events,
+                               creators=creator_name_list)
     return redirect('/login')
 
 
