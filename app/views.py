@@ -108,7 +108,7 @@ def event_detail(eventid):
                            participants=participants, registered=registered, comments=comments)
 
 
-@app.route('/create_event', methods=['GET', 'POST'])
+@app.route('/create_event', methods=['GET'])
 def create_event():
     if 'userid' not in session:
         return redirect('/login')
