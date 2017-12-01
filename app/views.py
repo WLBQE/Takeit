@@ -158,12 +158,11 @@ def add(userid):
     return redirect('/show_friends/%d' % session['userid'])
 
 
-@app.route('/show_friends/<int:userid>')
-def show_friends(userid):
+@app.route('/show_friends')
+def show_friends():
     if 'userid' not in session:
         return redirect('/login')
-    if session['userid'] is not userid:
-        return redirect('/login')
+    userid = session['userid']
     followers = User(userid).get_followers()
     followings = User(userid).get_followings()
     return render_template('show_friends.html', followers=followers, followings=followings, user=userid,
