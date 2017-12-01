@@ -92,6 +92,32 @@ class Tests(unittest.TestCase):
                                        (3, '8964', '1989-06-04 00:00', '1989-06-04 06:00', 'Tiananmen Square',
                                         'China needs democracy', 4)))
 
+    def test_user_get_events_created(self):
+        events = User(2).get_events_created()
+        self.assertTupleEqual(events, ((2, 'Falun Dafa', '1997-10-01 00:00', '1997-10-01 23:59', 'Xinghai Square',
+                                        'Falun Dafa is good', 2),))
+        self.assertTupleEqual(User(5).get_events_created(), ())
+
+    def test_user_get_events_participated(self):
+        self.assertTupleEqual(User(1).get_events_participated(), ())
+        events = User(3).get_events_participated()
+        self.assertTupleEqual(events, ((1, '19 Da', '2017-10-01 00:00', '2017-10-01 23:59', 'Renmin Dahuitang',
+                                        'Follow the party', 1),
+                                       (2, 'Falun Dafa', '1997-10-01 00:00', '1997-10-01 23:59', 'Xinghai Square',
+                                        'Falun Dafa is good', 2),
+                                       (3, '8964', '1989-06-04 00:00', '1989-06-04 06:00', 'Tiananmen Square',
+                                        'China needs democracy', 4)))
+
+    def test_user_post_comment(self):
+        self.assertFalse(User(1).post_comment(123, 'foo bar'))
+        self.assertTrue(User(3).post_comment(2, "Let's get rid of you guys!"))
+        self.assertTupleEqual(Event(2).get_comments(), ((3, 'Jiang Zemin', "Let's get rid of you guys!"),))
+
+    def test_search_user(self):
+        self.assertTupleEqual(User.search_user('Kim'), ())
+        self.assertTupleEqual(User.search_user('xjp@ccp.gov'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
+        self.assertTupleEqual(User.search_user('Xi Jinping'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
+
     # tests for view
     def login(self, email, password):
         return self.app.post('/login', data=dict(
