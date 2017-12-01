@@ -222,14 +222,14 @@ class Tests(unittest.TestCase):
         self.assertIn(b'sign in', rv.data)
 
     def test_show_friends_no_session(self):
-        rv = self.app.get('/show_friends/1', follow_redirects=True)
+        rv = self.app.get('/show_friends', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
     def test_show_friends(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
-        rv = self.app.get('/show_friends/1', follow_redirects=True)
+        rv = self.app.get('/show_friends', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'Jiang Zemin', rv.data)
 

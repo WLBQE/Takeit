@@ -108,7 +108,7 @@ def event_detail(eventid):
                            participants=participants, registered=registered, comments=comments)
 
 
-@app.route('/create_event', methods=['GET'])
+@app.route('/create_event', methods=['GET', 'POST'])
 def create_event():
     if 'userid' not in session:
         return redirect('/login')
@@ -154,7 +154,7 @@ def add(userid):
     if 'userid' not in session:
         return redirect('/login')
     if User(session['userid']).follow(userid) is False:
-        return 'Cannot follow'
+        return redirect('/add/%d' % userid)
     return redirect('/show_friends/%d' % session['userid'])
 
 
@@ -185,11 +185,8 @@ def add_comment(eventid):
     userid = session['userid']
     comment = request.form['comment']
     if comment:
-        if User(userid).post_comment(eventid, comment) is False:
-            return 'cannot post comment'
-        return redirect('/event_detail/%d' % eventid)
-    # TODO: restrain comment input
-    return 'You cannot submit nothing'
+        User(userid).post_comment(eventid, comment)
+    return redirect('/event_detail/%d' % eventid)
 
 
 @app.route('/really_change', methods=['GET', 'POST'])
@@ -200,5 +197,4 @@ def really_change():
         pprint(request.files)
         if file:
             file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
-            # return 'saved'
     return render_template('change_profile.html', user=userid, username=session['username'])
