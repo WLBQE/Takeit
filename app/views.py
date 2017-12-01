@@ -35,9 +35,7 @@ def login():
             session['userid'] = user[0]
             session['username'] = user[1]
             return redirect('/home')
-        else:
-            return redirect('/login')
-
+        return redirect('/login')
     return render_template('login.html', form=form)
 
 
@@ -103,10 +101,7 @@ def event_detail(eventid):
     event = Event(eventid).find()
     if event is None:
         return abort(404)
-    if User(session['userid']).check_register(event[0]) is True:
-        registered = True
-    else:
-        registered = False
+    registered = User(session['userid']).check_register(event[0])
     participants = Event(eventid).get_participants()
     comments = Event(eventid).get_comments()
     return render_template('event_detail.html', event=event, user=session['userid'], username=session['username'],
@@ -130,8 +125,8 @@ def create_event():
             file = request.files['file']
             if file:
                 splitlist = file.filename.split('.')
-                format = splitlist[-1]
-                file.filename = str(eventid) + '.' + format
+                file_format = splitlist[-1]
+                file.filename = str(eventid) + '.' + file_format
                 file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
         return redirect('/profile/%d' % session['userid'])
 
