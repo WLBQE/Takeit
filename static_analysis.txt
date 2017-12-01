@@ -1,0 +1,48 @@
+Messages
+========
+
+app/__init__.py
+  Line: 12
+    pylint: wrong-import-position / Import "from app import views, models" should be placed at the top of the module
+    pyflakes: F401 / 'app.views' imported but unused (col 1)
+
+app/forms.py
+  Line: 2
+    pylint: unused-import / Unused BooleanField imported from wtforms
+
+app/models.py
+  Line: 208
+    pylint: too-many-arguments / Too many arguments (7/5) (col 4)
+
+app/views.py
+  Line: 1
+    pylint: cyclic-import / Cyclic import (app -> app.views -> app.models)
+    pylint: cyclic-import / Cyclic import (app -> app.views)
+    pylint: cyclic-import / Cyclic import (app -> app.models)
+  Line: 34
+    pylint: no-else-return / Unnecessary "else" after "return" (col 8)
+  Line: 106
+    pylint: simplifiable-if-statement / The if statement can be replaced with 'var = bool(test)' (col 4)
+  Line: 133
+    pylint: redefined-builtin / Redefining built-in 'format' (col 16)
+  Line: 149
+    pylint: consider-using-enumerate / Consider using enumerate instead of iterating with range and len (col 4)
+
+config.py
+  Line: 5
+    dodgy: password / Possible hardcoded password
+
+
+
+Check Information
+=================
+         Started: 2017-11-30 21:10:46.971437
+        Finished: 2017-11-30 21:10:50.599318
+      Time Taken: 3.63 seconds
+       Formatter: grouped
+        Profiles: default, no_doc_warnings, no_test_warnings, strictness_medium, strictness_high, strictness_veryhigh, no_member_warnings
+      Strictness: None
+  Libraries Used: 
+       Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes, pylint
+  Messages Found: 12
+
