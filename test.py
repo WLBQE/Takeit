@@ -277,7 +277,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    log_file = 'log_file.txt'
+    log_file = 'test_log.txt'
     f = open(log_file, 'w')
     runner = unittest.TextTestRunner(f)
     unittest.main(testRunner=runner)
