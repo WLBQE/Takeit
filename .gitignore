@@ -4,7 +4,7 @@ venv/
 .DS_STORE
 __pycache__/
 git.zsh
-log_file.txt
+test_log.txt
 app/static/event_picture/*
 app/static/user_picture/*
 !app/static/event_picture/default_cover_picture.png

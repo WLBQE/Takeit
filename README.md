@@ -1,2 +1,2 @@
-# TakeIt
-This is a simple version of TakeIt.
+## TakeIt
+This is the second iteration of TakeIt, a event-based social website.

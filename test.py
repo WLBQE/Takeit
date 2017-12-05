@@ -40,6 +40,7 @@ class Tests(unittest.TestCase):
         user = User(1).find()
         self.assertIsNotNone(user)
         self.assertTupleEqual(user, (1, 'Xi Jinping', 'xjp@ccp.gov'))
+        self.assertIsNone(User(6).find())
 
     def test_user_check_register(self):
         self.assertTrue(User(1).check_register(1))
@@ -117,6 +118,33 @@ class Tests(unittest.TestCase):
         self.assertTupleEqual(User.search_user('Kim'), ())
         self.assertTupleEqual(User.search_user('xjp@ccp.gov'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
         self.assertTupleEqual(User.search_user('Xi Jinping'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
+
+    def test_event_find(self):
+        event = Event(1).find()
+        self.assertIsNotNone(event)
+        self.assertTupleEqual(event, (1, '19 Da', '2017-10-01 00:00', '2017-10-01 23:59', 'Renmin Dahuitang',
+                                      'Follow the party', 1))
+        self.assertIsNone(Event(4).find())
+
+    def test_event_create(self):
+        ret = Event().create(1, '20 Da', "I'm still the president", 'Renmin Dahuitang', '2022-10-02 00:00',
+                             '2022-10-01 00:00')
+        self.assertIsNone(ret)
+        ret = Event().create(1, '20 Da', "I'm still the president", 'Renmin Dahuitang', '2022-10-01 00:00',
+                             '2022-10-02 00:00')
+        self.assertEqual(ret, 4)
+        self.assertTupleEqual(Event(4).find(), (4, '20 Da', '2022-10-01 00:00', '2022-10-02 00:00', 'Renmin Dahuitang',
+                                                "I'm still the president", 1))
+
+    def test_event_get_participants(self):
+        self.assertTupleEqual(Event(3).get_participants(), ((3, 'Jiang Zemin', 'haha@zhangzhe.wang'),
+                                                            (5, 'Wang Dan', 'wangdan@pku.edu.cn')))
+        self.assertTupleEqual(Event(4).get_participants(), ())
+
+    def test_event_get_comments(self):
+        self.assertTupleEqual(Event(1).get_comments(), ((1, 'Xi Jinping', 'Jiang Zemin is the enemy of us!'),
+                                                        (3, 'Jiang Zemin', 'I spoke with American Wallace.')))
+        self.assertTupleEqual(Event(2).get_comments(), ())
 
     # tests for view
     def login(self, email, password):
@@ -249,7 +277,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    log_file = 'log_file.txt'
+    log_file = 'test_log.txt'
     f = open(log_file, 'w')
     runner = unittest.TextTestRunner(f)
     unittest.main(testRunner=runner)
