@@ -2,14 +2,14 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-Demo App
+    Demo App
 {% endblock %}
 
 
 {% block styles %}
-{{super()}}
+    {{ super() }}
 
-<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='starter-template.css') }}">
 
 {% endblock %}
 
@@ -20,35 +20,33 @@ Demo App
     <div class="container">
 
 
+        <div class="starter-template">
+            <h1>TAKEIT HOMEPAGE</h1>
+            <p class="lead">THIS IS THE HOME PAGE USER WILL SEE AFTER LOG IN<br> BELOW ARE THE PUBLIC EVENT</p>
+            <div class="row">
+                {% for item in event_list -%}
 
-      <div class="starter-template">
-        <h1>TAKEIT HOMEPAGE</h1>
-        <p class="lead">THIS IS THE HOME PAGE USER WILL SEE AFTER LOG IN<br> BELOW ARE THE PUBLIC EVENT</p>
-      <div class="row">
-  {% for item in event_list -%}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h3>{{ item[1] }}</h3>
+                                <p>{{ item[2] }}</p>
+                                <p>{{ item[3] }}</p>
+                                <p>{{ item[4] }}</p>
+                                <p>{{ item[5] }}</p>
+                                <p>{{ creators[ item[6]] }}</p>
+                                <button class="btn btn-default" type="button"
+                                        onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">
+                                    Event Detail
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {%- endfor %}
 
-      <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-              <div class="caption">
-                <h3>{{ item[1] }}</h3>
-                <p>{{ item[2] }}</p>
-                  <p>{{ item[3] }}</p>
-                  <p>{{ item[4] }}</p>
-                  <p>{{ item[5] }}</p>
-                  <p>{{ creators[ item[6]] }}</p>
-                  <button class="btn btn-default" type="button" onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">Event Detail</button>
-              </div>
+
             </div>
-          </div>
-    {%- endfor %}
-
-
-
-
-      </div>
-      </div>
-
-
+        </div>
 
 
     </div><!-- /.container -->

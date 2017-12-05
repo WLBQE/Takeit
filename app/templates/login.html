@@ -2,14 +2,17 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-Login
+    Login
 {% endblock %}
 
 {% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('.static', filename='signin.css')}}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
-<script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js" charset="UTF-8"></script>
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('.static', filename='signin.css') }}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    <script type="text/javascript"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"
+            charset="UTF-8"></script>
 
 {% endblock %}
 
@@ -18,32 +21,32 @@ Login
 {% block active %}
 
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="{{ url_for('signup') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="{{ url_for('signup') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
 
 
-  {% endblock  %}
+{% endblock %}
 
 
 {% block content %}
 
     <div class="container">
-    {% if status == True %}
-<h1>already logged in</h1>
-  </div>
+        {% if status == True %}
+            <h1>already logged in</h1>
+            </div>
 
-    {% else %}
-        <form class="form-signin" method="POST" action="/login">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        {{ form.hidden_tag() }}
-        {{ wtf.form_field(form.email) }}
-        {{ wtf.form_field(form.password) }}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        {% else %}
+            <form class="form-signin" method="POST" action="/login">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                {{ form.hidden_tag() }}
+                {{ wtf.form_field(form.email) }}
+                {{ wtf.form_field(form.password) }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
-      </form>
+            </form>
 
-    {% endif %}
+        {% endif %}
 
     </div> <!-- /container -->
 {% endblock %}
