@@ -19,4 +19,4 @@ before_install:
 script:
   - coverage run --branch test.py
   - cat test_log.txt
-  - coverage report -m
+  - coverage report --include=./* -m
