@@ -4,15 +4,8 @@ from app.models import User, Event
 
 
 class Tests(unittest.TestCase):
-    first = True
-
     # executed prior to each test
     def setUp(self):
-        if Tests.first:
-            print("FIRST!")
-            self.run_sql_file('create.sql')
-            self.run_sql_file('fake_data.sql')
-            Tests.first = False
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
         self.app = app.test_client()
