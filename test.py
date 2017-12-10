@@ -237,7 +237,6 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 404)
 
     def test_profile_no_session(self):
-        rv = self.app.get('/event_detail/2', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
