@@ -282,7 +282,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
-    def test_register_invalidid(self):
+    def test_register_invalid(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/register/100', follow_redirects=True)
