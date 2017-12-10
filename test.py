@@ -5,11 +5,6 @@ from app.models import User, Event
 
 class Tests(unittest.TestCase):
     # executed prior to each test
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        self.app = app.test_client()
-
     @staticmethod
     def run_sql_file(filename):
         sqlfile = open(filename, 'r')
@@ -20,6 +15,13 @@ class Tests(unittest.TestCase):
         connection.commit()
         connection.close()
         sqlfile.close()
+
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['WTF_CSRF_ENABLED'] = False
+        self.app = app.test_client()
+        self.run_sql_file('create.sql')
+        self.run_sql_file('fake_data.sql')
 
     # executed after each test
     def tearDown(self):
