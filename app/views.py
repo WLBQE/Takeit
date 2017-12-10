@@ -186,12 +186,12 @@ def add_comment(eventid):
     return redirect('/event_detail/%d' % eventid)
 
 
-@app.route('/really_change', methods=['GET', 'POST'])
-def really_change():
-    userid = session['userid']
-    if request.method == "POST":
-        file = request.files['file']
-        pprint(request.files)
-        if file:
-            file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
-    return render_template('change_profile.html', user=userid, username=session['username'])
+# @app.route('/really_change', methods=['GET', 'POST'])
+# def really_change():
+#     userid = session['userid']
+#     if request.method == "POST":
+#         file = request.files['file']
+#         pprint(request.files)
+#         if file:
+#             file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+#     return render_template('change_profile.html', user=userid, username=session['username'])

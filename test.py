@@ -328,12 +328,19 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
-    def test_add_no(self):
+    def test_add_success(self):
         rv = self.login('haha@zhangzhe.wang', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/add/2', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'Li Hongzhi', rv.data)
+
+    def test_add_fail(self):
+        rv = self.login('haha@zhangzhe.wang', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/add/12345', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'8964', rv.data)
 
     def test_show_friends_no_session(self):
         rv = self.app.get('/show_friends', follow_redirects=True)
