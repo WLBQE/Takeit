@@ -209,9 +209,14 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
 
     def test_signup(self):
+        rv = self.signup('qwer@123.com', 'qwer1234', 'qwer')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'qwer', rv.data)
+
+    def test_signup_fail(self):
         rv = self.signup('123@123.com', 'qwer1234', '123')
         self.assertEqual(rv.status_code, 200)
-        self.assertIn(b'123', rv.data)
+        print rv.data
 
     def test_home_no_session(self):
         rv = self.app.get('/home', follow_redirects=True)
