@@ -214,8 +214,9 @@ class Tests(unittest.TestCase):
         self.assertIn(b'qwer', rv.data)
 
     def test_signup_fail(self):
-        rv = self.signup('123@123.com', 'qwer1234', '123')
+        rv = self.signup('xjp@ccp.gov', 'qwer1234', 'Xi Jinping')
         self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Sign Up', rv.data)
 
     def test_home_no_session(self):
         rv = self.app.get('/home', follow_redirects=True)
