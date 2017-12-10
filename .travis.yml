@@ -1,5 +1,16 @@
 language: python
 python:
+  - "2.7"
   - "3.6"
+
+services:
+  - mysql
+
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+
 script:
-  - echo "NO SCRIPY 2 RUN"
+  - coverage run --branch test.py
+  - cat test_log.txt
+  - coverage report -m

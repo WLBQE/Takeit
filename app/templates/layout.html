@@ -1,91 +1,73 @@
-
-  <head>
+<head>
     {% block head %}
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
-{#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">#}
-{#<script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js" charset="UTF-8"></script>#}
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+        <title>{% block title %}{% endblock %} - My Webpage</title>
     {% endblock %}
-  </head>
+</head>
 
 {% include "bootstrap/base.html" %}
 
 
 {% block styles %}
-<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
-{#    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">#}
+    <link rel="stylesheet" href="{{ url_for('.static', filename='starter-template.css') }}">
 
 {% endblock %}
 
 {% block navbar %}
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-{#            <span class="sr-only">Toggle navigation</span>#}
-{#            <span class="icon-bar"></span>#}
-{#            <span class="icon-bar"></span>#}
-{#            <span class="icon-bar"></span>#}
-          </button>
-          <a class="navbar-brand" href={{ url_for('home') }}>TakeIt!</a>
-        </div>
-    {% block active %}
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
 
-    <ul class="nav navbar-nav navbar-right">
-    <li><img src="../static/user_picture/default_avatar.png"></li>
-      <li><a href={{ url_for('change_profile') }}>{{ username }}</a></li>
-      <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-    </ul>
+                </button>
+                <a class="navbar-brand" href={{ url_for('home') }}>TakeIt!</a>
+            </div>
+            {% block active %}
 
-     <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><img src="../static/user_picture/default_avatar.png"></li>
+                    <li><a href={{ url_for('change_profile') }}>{{ username }}</a></li>
+                    <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                    </li>
+                </ul>
 
-              <ul class="nav navbar-nav">
-                  <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">User Profile
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="{{ url_for('profile', userid = user) }}">Events Profile</a></li>
-                      <li><a href="{{ url_for('show_friends') }}">Show Friends</a></li>
-{#                      <li><a href="#">Add Friends</a></li>#}
-{#                      <li><a href="#">Page 1-3</a></li>#}
+                <div id="navbar" class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">User Profile
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url_for('profile', userid = user) }}">Events Profile</a></li>
+                                <li><a href="{{ url_for('show_friends') }}">Show Friends</a></li>
+                            </ul>
+                        </li>
+
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
+
+
+                        <form class="navbar-form navbar-left" role="form" method="POST"
+                              action="{{ url_for( 'add_friend') }}">
+                            <div class="input-group">
+                                <input type="text" name="userinfo" class="form-control" placeholder="Search Friend">
+
+                                <div class="input-group-btn">
+                                    <button style="height: 34px;" class="btn btn-default" type="submit">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
                     </ul>
-                  </li>
-
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('create_event') }}">Create Event</a></li>
-
-
-{#                <form class="navbar-form navbar-left">#}
-                <form class="navbar-form navbar-left" role="form" method="POST" action="{{ url_for( 'add_friend') }}">
-                  <div class="input-group">
-                    <input type="text" name="userinfo" class="form-control" placeholder="Search Friend">
-
-                    <div class="input-group-btn">
-                      <button style="height: 34px;" class="btn btn-default" type="submit">
-                        <i class="glyphicon glyphicon-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-
-              </ul>
-            </div><!--/.nav-collapse -->
-     {% endblock  %}
-      </div>
+                </div><!--/.nav-collapse -->
+            {% endblock %}
+        </div>
     </nav>
 
-
-{#<form class="navbar-form navbar-left">#}
-{#  <div class="input-group">#}
-{#    <input type="text" class="form-control" placeholder="Search">#}
-{#    <div class="input-group-btn">#}
-{#      <button class="btn btn-default" type="submit">#}
-{#        <i class="glyphicon glyphicon-search"></i>#}
-{#      </button>#}
-{#    </div>#}
-{#  </div>#}
-{#</form>#}
 
 {% endblock %}
 
@@ -93,11 +75,12 @@
 
     <div class="container">
 
-  <div class="starter-template">
-    <h1>Bootstrap starter template</h1>
-    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-  </div>
+        <div class="starter-template">
+            <h1>Bootstrap starter template</h1>
+            <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text
+                and a mostly barebones HTML document.</p>
+        </div>
 
-</div><!-- /.container -->
+    </div><!-- /.container -->
 
 {% endblock %}

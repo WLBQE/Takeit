@@ -4,8 +4,15 @@ from app.models import User, Event
 
 
 class Tests(unittest.TestCase):
+    first = True
+
     # executed prior to each test
     def setUp(self):
+        if Tests.first:
+            print("FIRST!")
+            self.run_sql_file('create.sql')
+            self.run_sql_file('fake_data.sql')
+            Tests.first = False
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
         self.app = app.test_client()
@@ -25,11 +32,13 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.run_sql_file('create.sql')
         self.run_sql_file('fake_data.sql')
-    '''
+
     # tests for model
     def test_user_create_auth(self):
         create = User().create('testuser@te.st', 'password', 'test user')
         self.assertEqual(create, 6)
+        create = User().create('testuser@te.st', 'passw0rd', 'bug user')
+        self.assertIsNone(create)
         auth = User().authenticate('testuser@te.st', 'password')
         self.assertIsNotNone(auth)
         self.assertTupleEqual(auth, (6, 'test user'))
@@ -40,6 +49,8 @@ class Tests(unittest.TestCase):
         user = User(1).find()
         self.assertIsNotNone(user)
         self.assertTupleEqual(user, (1, 'Xi Jinping', 'xjp@ccp.gov'))
+        self.assertIsNone(User(6).find())
+        self.assertIsNone(User().find())
 
     def test_user_check_register(self):
         self.assertTrue(User(1).check_register(1))
@@ -117,7 +128,40 @@ class Tests(unittest.TestCase):
         self.assertTupleEqual(User.search_user('Kim'), ())
         self.assertTupleEqual(User.search_user('xjp@ccp.gov'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
         self.assertTupleEqual(User.search_user('Xi Jinping'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
-    '''
+
+    def test_event_find(self):
+        event = Event().find()
+        self.assertIsNone(event)
+        event = Event(1).find()
+        self.assertIsNotNone(event)
+        self.assertTupleEqual(event, (1, '19 Da', '2017-10-01 00:00', '2017-10-01 23:59', 'Renmin Dahuitang',
+                                      'Follow the party', 1))
+        self.assertIsNone(Event(4).find())
+
+    def test_event_create(self):
+        ret = Event().create(10, '20 Da', "I'm still the president", 'Renmin Dahuitang', '2022-10-02 00:00',
+                             '2022-10-01 00:00')
+        self.assertIsNone(Event(4).find())
+        self.assertIsNone(ret)
+        ret = Event().create(1, '20 Da', "I'm still the president", 'Renmin Dahuitang', '2022-10-02 00:00',
+                             '2022-10-01 00:00')
+        self.assertIsNone(ret)
+        ret = Event().create(1, '20 Da', "I'm still the president", 'Renmin Dahuitang', '2022-10-01 00:00',
+                             '2022-10-02 00:00')
+        self.assertEqual(ret, 4)
+        self.assertTupleEqual(Event(4).find(), (4, '20 Da', '2022-10-01 00:00', '2022-10-02 00:00', 'Renmin Dahuitang',
+                                                "I'm still the president", 1))
+
+    def test_event_get_participants(self):
+        self.assertTupleEqual(Event(3).get_participants(), ((3, 'Jiang Zemin', 'haha@zhangzhe.wang'),
+                                                            (5, 'Wang Dan', 'wangdan@pku.edu.cn')))
+        self.assertTupleEqual(Event(4).get_participants(), ())
+
+    def test_event_get_comments(self):
+        self.assertTupleEqual(Event(1).get_comments(), ((1, 'Xi Jinping', 'Jiang Zemin is the enemy of us!'),
+                                                        (3, 'Jiang Zemin', 'I spoke with American Wallace.')))
+        self.assertTupleEqual(Event(2).get_comments(), ())
+
     # tests for view
     def login(self, email, password):
         return self.app.post('/login', data=dict(
@@ -320,7 +364,7 @@ class Tests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    log_file = 'log_file.txt'
+    log_file = 'test_log.txt'
     f = open(log_file, 'w')
     runner = unittest.TextTestRunner(f)
     unittest.main(testRunner=runner)

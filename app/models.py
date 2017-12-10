@@ -1,6 +1,6 @@
 from passlib.hash import bcrypt
 from pymysql import escape_string
-from pymysql.err import IntegrityError
+from pymysql.err import Error
 
 from app import db
 
@@ -16,7 +16,7 @@ class User:
             cursor.execute('''
                 INSERT INTO Users (email, password, username) VALUES('{}', '{}', '{}')
                 '''.format(escape_string(email), bcrypt.encrypt(password), escape_string(username)))
-        except IntegrityError:
+        except Error:
             conn.close()
             return None
         self.id = cursor.lastrowid
@@ -68,7 +68,7 @@ class User:
         cursor = conn.cursor()
         try:
             cursor.execute("INSERT INTO Regs (event, user) VALUES ({}, {})".format(event_id, self.id))
-        except IntegrityError:
+        except Error:
             conn.close()
             return False
         conn.commit()
@@ -78,11 +78,7 @@ class User:
     def unregister(self, event_id):
         conn = db.connect()
         cursor = conn.cursor()
-        try:
-            cursor.execute("DELETE FROM Regs WHERE event={} AND user={}".format(event_id, self.id))
-        except IntegrityError:
-            conn.close()
-            return
+        cursor.execute("DELETE FROM Regs WHERE event={} AND user={}".format(event_id, self.id))
         conn.commit()
         conn.close()
 
@@ -103,7 +99,7 @@ class User:
         cursor = conn.cursor()
         try:
             cursor.execute("INSERT INTO Follow (id1, id2) VALUES ({}, {})".format(self.id, user_id))
-        except IntegrityError:
+        except Error:
             conn.close()
             return False
         conn.commit()
@@ -113,11 +109,7 @@ class User:
     def unfollow(self, user_id):
         conn = db.connect()
         cursor = conn.cursor()
-        try:
-            cursor.execute("DELETE FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
-        except IntegrityError:
-            conn.close()
-            return
+        cursor.execute("DELETE FROM Follow WHERE id1={} AND id2={}".format(self.id, user_id))
         conn.commit()
         conn.close()
 
@@ -172,7 +164,7 @@ class User:
             cursor.execute('''
                 INSERT INTO Comments (event, creator, content) VALUES ({}, {}, '{}')
                 '''.format(event_id, self.id, escape_string(content)))
-        except IntegrityError:
+        except Error:
             conn.close()
             return False
         conn.commit()
@@ -210,15 +202,11 @@ class Event:
             return None
         conn = db.connect()
         cursor = conn.cursor()
-        try:
-            cursor.execute('''
-                INSERT INTO Events (name, start_time, end_time, location, description, creator)
-                VALUES ('{}', '{}', '{}', '{}', '{}', {})
-                '''.format(escape_string(event_name), escape_string(start_time), escape_string(end_time),
-                           escape_string(event_location), escape_string(event_description), creator_id))
-        except IntegrityError:
-            conn.close()
-            return None
+        cursor.execute('''
+            INSERT INTO Events (name, start_time, end_time, location, description, creator)
+            VALUES ('{}', '{}', '{}', '{}', '{}', {})
+            '''.format(escape_string(event_name), escape_string(start_time), escape_string(end_time),
+                       escape_string(event_location), escape_string(event_description), creator_id))
         self.id = cursor.lastrowid
         conn.commit()
         conn.close()

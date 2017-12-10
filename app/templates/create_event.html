@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-Create Event
+    Create Event
 {% endblock %}
 
 
@@ -10,82 +10,77 @@ Create Event
 {% block styles %}
     {{ super() }}
     <link href="{{ url_for("static",filename="bootstrap-datetimepicker.min.css") }}" rel="stylesheet" media="screen">
-    <script type="text/javascript" src="{{ url_for("static",filename="bootstrap-datetimepicker.js") }}" charset="UTF-8"></script>
-           <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker4').datetimepicker({locale: 'zh-cn',autoclose:true});
-                $('#datetimepicker5').datetimepicker({locale: 'zh-cn',autoclose:true});
+    <script type="text/javascript" src="{{ url_for("static",filename="bootstrap-datetimepicker.js") }}"
+            charset="UTF-8"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker4').datetimepicker({locale: 'zh-cn', autoclose: true});
+            $('#datetimepicker5').datetimepicker({locale: 'zh-cn', autoclose: true});
 
-            });
-        </script>
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-<div style="padding: 100px 100px 10px;">
-    <form class="bs-example bs-example-form" method="POST" action="/create_event" enctype="multipart/form-data" >
+    <div style="padding: 100px 100px 10px;">
+        <form class="bs-example bs-example-form" method="POST" action="/create_event" enctype="multipart/form-data">
 
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon">Event name</span>
-            {{ form.hidden_tag() }}
-            {{ form.name(class_="form-control", placeholder="eg.Movie Blade runner 2049") }}
-        </div>
-        <br>
-        <div class="input-group input-group-lg" >
-            <span class="input-group-addon" >Event location</span>
-            {{ form.hidden_tag() }}
-            {{ form.location(class_="form-control", placeholder="eg.1024 Broadway") }}
-        </div>
-        <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Event name</span>
+                {{ form.hidden_tag() }}
+                {{ form.name(class_="form-control", placeholder="eg.Movie Blade runner 2049") }}
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon">Event location</span>
+                {{ form.hidden_tag() }}
+                {{ form.location(class_="form-control", placeholder="eg.1024 Broadway") }}
+            </div>
+            <br>
 
-        <div class='input-group-lg input-group date' id='datetimepicker4'>
+            <div class='input-group-lg input-group date' id='datetimepicker4'>
 
                 <span class="input-group-addon">Start Time
                 <span class="glyphicon glyphicon-calendar"></span>
                 </span>
-                   {{ form.start_date( class_="form-control", placeholder="eg.2017-10-28 21:00") }}
-         </div>
+                {{ form.start_date( class_="form-control", placeholder="eg.2017-10-28 21:00") }}
+            </div>
 
 
-        <br>
+            <br>
 
-         <div class='input-group-lg input-group date' id='datetimepicker5'>
+            <div class='input-group-lg input-group date' id='datetimepicker5'>
 
                 <span class="input-group-addon">End Time
                 <span class="glyphicon glyphicon-calendar"></span>
                 </span>
-                   {{ form.end_date( class_="form-control", placeholder="eg.2017-10-28 22:00") }}
-         </div>
-
-        <div class="form-group">
-
-  		   <h4 >Event Description:</h4>
-            {{ form.description(class_="form-control", rows="5") }}
-		</div>
-
-{#        <form class="navbar-form navbar-left" role="form" method="POST" action="{{ url_for( 'add_friend') }}">#}
-
-{#      <form action = "{{ url_for( 'add_friend') }}" method = "POST" enctype = "multipart/form-data">#}
-{#        <form method= post >#}
-        <label class="btn btn-default">
-            Upload Cover Page <input style="display: none !important; " name = "file" type="file" >
-        </label>
-{#        </form>#}
-
-        <br>
-        <center>
-        	<div class="btn-group">
-    		<button class="btn btn-default btn-lg" type="submit">Create this event</button>
-
+                {{ form.end_date( class_="form-control", placeholder="eg.2017-10-28 22:00") }}
             </div>
-        </center>
+
+            <div class="form-group">
+
+                  <h4>Event Description:</h4>
+                {{ form.description(class_="form-control", rows="5") }}
+            </div>
 
 
+            <label class="btn btn-default">
+                Upload Cover Page <input style="display: none !important; " name="file" type="file">
+            </label>
 
-    </form>
+            <br>
+            <center>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-lg" type="submit">Create this event</button>
+
+                </div>
+            </center>
 
 
+        </form>
 
-</div>
+
+    </div>
 
 {% endblock %}
 

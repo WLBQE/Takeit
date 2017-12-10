@@ -2,14 +2,14 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-Demo App
+    Demo App
 {% endblock %}
 
 
 {% block styles %}
-{{super()}}
+    {{ super() }}
 
-<link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+    <link rel="stylesheet" href="{{ url_for('.static', filename='starter-template.css') }}">
 
 {% endblock %}
 
@@ -19,57 +19,61 @@ Demo App
 {% block content %}
 
 
-<div class="container">
-  <div class="starter-template">
-    <h1>My Followers</h1>
+    <div class="container">
+        <div class="starter-template">
+            <h1>My Followers</h1>
 
-    {% for item in followers %}
+            {% for item in followers %}
 
-        <div class="thumbnail">
-          <div class="caption">
-             <div class="media">
-                <div class="media-left">
-                  <h4 class="media-heading">{{ item[1] }}</h4>
+                <div class="thumbnail">
+                    <div class="caption">
+                        <div class="media">
+                            <div class="media-left">
+                                <h4 class="media-heading">{{ item[1] }}</h4>
+                            </div>
+                            <div class="media-body media-left">
+                                <h4 class="media-heading">{{ item[2] }}</h4>
+                            </div>
+                            <div class="media-right">
+                                <button class="btn btn-default " type="button"
+                                        onclick="window.location.href='{{ url_for( 'profile', userid = item[0] ) }}';">
+                                    View More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="media-body media-left">
-                    <h4 class="media-heading">{{ item[2] }}</h4>
+
+            {% endfor %}
+            <h1>People I follow</h1>
+
+            {% for item in followings %}
+
+                <div class="thumbnail">
+                    <div class="caption">
+                        <div class="media">
+                            <div class="media-left">
+                                <h4 class="media-heading">{{ item[1] }}</h4>
+                            </div>
+                            <div class="media-body media-left">
+                                <h4 class="media-heading">{{ item[2] }}</h4>
+                            </div>
+                            <div class="media-right">
+                                <button class="btn btn-default " type="button"
+                                        onclick="window.location.href='{{ url_for( 'profile', userid = item[0]  ) }}';">
+                                    View More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                 <div class="media-right" >
-                    <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'profile', userid = item[0] ) }}';">View More</button>
-                </div>
+
+            {% endfor %}
+
+
         </div>
-      </div>
-
-    </div>
-
-    {% endfor %}
-  <h1>People I follow</h1>
-
-      {% for item in followings %}
-
-        <div class="thumbnail">
-          <div class="caption">
-             <div class="media">
-                <div class="media-left">
-                  <h4 class="media-heading">{{ item[1] }}</h4>
-                </div>
-                <div class="media-body media-left">
-                    <h4 class="media-heading">{{ item[2] }}</h4>
-                </div>
-                 <div class="media-right" >
-                    <button class="btn btn-default " type="button" onclick="window.location.href='{{ url_for( 'profile', userid = item[0]  ) }}';">View More</button>
-                </div>
-        </div>
-      </div>
-
-    </div>
-
-    {% endfor %}
-
-
-
-
-  </div>
-</div><!-- /.container -->
+    </div><!-- /.container -->
 
 {% endblock %}
