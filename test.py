@@ -223,6 +223,20 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
+    def test_home_just_for_coverage(self):
+        rv = self.login('lxb@anticcp.com', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'19 Da', rv.data)
+        rv = self.create_event('Test', '2018-01-01 00:00', '2018-01-01 23:59', 'somewhere', 'something')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'somewhere', rv.data)
+        rv = self.app.get('/logout', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Test', rv.data)
+
     def test_event_detail_no_session(self):
         rv = self.app.get('/event_detail/2', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
@@ -340,7 +354,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/add/12345', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
-        self.assertIn(b'8964', rv.data)
+        self.assertIn(b'19 Da', rv.data)
 
     def test_show_friends_no_session(self):
         rv = self.app.get('/show_friends', follow_redirects=True)
