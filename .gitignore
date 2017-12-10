@@ -4,6 +4,7 @@ venv/
 .DS_STORE
 __pycache__/
 git.zsh
+.coverage
 test_log.txt
 app/static/event_picture/*
 app/static/user_picture/*
