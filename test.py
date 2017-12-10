@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
     def tearDown(self):
         self.run_sql_file('create.sql')
         self.run_sql_file('fake_data.sql')
-
+    '''
     # tests for model
     def test_user_create_auth(self):
         create = User().create('testuser@te.st', 'password', 'test user')
@@ -117,14 +117,21 @@ class Tests(unittest.TestCase):
         self.assertTupleEqual(User.search_user('Kim'), ())
         self.assertTupleEqual(User.search_user('xjp@ccp.gov'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
         self.assertTupleEqual(User.search_user('Xi Jinping'), ((1, 'Xi Jinping', 'xjp@ccp.gov'),))
-
+    '''
     # tests for view
     def login(self, email, password):
         return self.app.post('/login', data=dict(
             email=email,
             password=password,
             remember=True
-            ), follow_redirects=True)
+        ), follow_redirects=True)
+
+    def signup(self, email, password, username):
+        return self.app.post('/signup', data=dict(
+            email=email,
+            password=password,
+            username=username
+        ), follow_redirects=True)
 
     def create_event(self, name, start_time, end_time, location, description):
         return self.app.post('/create_event', data=dict(
@@ -134,6 +141,13 @@ class Tests(unittest.TestCase):
             location=location,
             description=description
         ), follow_redirects=True)
+
+    def test_login_in_session(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/login', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Falun Dafa', rv.data)
 
     def test_login_success(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
@@ -150,6 +164,20 @@ class Tests(unittest.TestCase):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/logout', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
+    def test_signup_get(self):
+        rv = self.app.get('/signup')
+        self.assertEqual(rv.status_code, 200)
+
+    def test_signup(self):
+        rv = self.signup('123@123.com', 'qwer1234', '123')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'123', rv.data)
+
+    def test_home_no_session(self):
+        rv = self.app.get('/home', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
@@ -179,6 +207,8 @@ class Tests(unittest.TestCase):
     def test_profile_exist(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/register/2', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/profile/1', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'19 Da', rv.data)
@@ -189,10 +219,36 @@ class Tests(unittest.TestCase):
         rv = self.app.get('/profile/100', follow_redirects=True)
         self.assertEqual(rv.status_code, 404)
 
+    def test_register_no_session(self):
+        rv = self.app.get('/register/2', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
+    def test_register_invalidid(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/register/100', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Xi Jinping', rv.data)
+
+    def test_register(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/register/2', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Falun Dafa', rv.data)
+
     def test_create_event_no_session(self):
         rv = self.create_event('20 Da', '2022-10-01 10:00', '2022-10-07 10:00', 'Renmindahuitang', 'hello world')
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'login', rv.data)
+
+    def test_create_event_get(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/create_event')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Event Description', rv.data)
 
     def test_create_event(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
@@ -207,8 +263,17 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
-    def test_add_friend(self):
+    def test_add_friend_yes(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.post('/add_friend', data=dict(
+            userinfo='Li Hongzhi'
+        ))
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Li Hongzhi', rv.data)
+
+    def test_add_friend_no(self):
+        rv = self.login('haha@zhangzhe.wang', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.post('/add_friend', data=dict(
             userinfo='Li Hongzhi'
@@ -220,6 +285,12 @@ class Tests(unittest.TestCase):
         rv = self.app.get('/add/3', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
+
+    def test_add(self):
+        rv = self.login('haha@zhangzhe.wang', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/add/2', follow_redirects=True)
+        self.assertEqual(rv.status_code, 404)
 
     def test_show_friends_no_session(self):
         rv = self.app.get('/show_friends', follow_redirects=True)

@@ -16,8 +16,6 @@ def home():
             creator_id = e[6]
             if creator_id not in creator_name_list:
                 creator = User(creator_id).find()
-                if creator is None:
-                    return abort(501)
                 creator_name_list[creator_id] = creator[1]
         return render_template('home.html', user=userid, username=session['username'], event_list=events,
                                creators=creator_name_list)
@@ -76,8 +74,6 @@ def profile(userid):
         creator_id = e[6]
         if creator_id not in creator_name_list:
             creator = User(creator_id).find()
-            if creator is None:
-                abort(501)
             creator_name_list[creator_id] = creator[1]
 
     return render_template('profile.html', current_user=session['userid'], user_profile=user,
