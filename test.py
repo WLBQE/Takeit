@@ -216,7 +216,6 @@ class Tests(unittest.TestCase):
     def test_signup_fail(self):
         rv = self.signup('123@123.com', 'qwer1234', '123')
         self.assertEqual(rv.status_code, 200)
-        print rv.data
 
     def test_home_no_session(self):
         rv = self.app.get('/home', follow_redirects=True)
