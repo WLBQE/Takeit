@@ -118,13 +118,13 @@ def create_event():
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         # TODO: cannot upload
-        if request.files:
-            file = request.files['file']
-            if file:
-                splitlist = file.filename.split('.')
-                file_format = splitlist[-1]
-                file.filename = str(eventid) + '.' + file_format
-                file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+        # if request.files:
+        #     file = request.files['file']
+        #     if file:
+        #         splitlist = file.filename.split('.')
+        #         file_format = splitlist[-1]
+        #         file.filename = str(eventid) + '.' + file_format
+        #         file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
         return redirect('/profile/%d' % session['userid'])
 
     return render_template('create_event.html', form=form, user=userid, username=session['username'])
@@ -150,9 +150,9 @@ def add_friend():
 def add(userid):
     if 'userid' not in session:
         return redirect('/login')
-    if User(session['userid']).follow(userid) is False:
-        return redirect('/add/%d' % userid)
-    return redirect('/show_friends')
+    if User(session['userid']).follow(userid):
+        return redirect('/show_friends')
+    return redirect('/add/%d' % userid)
 
 
 @app.route('/show_friends')
