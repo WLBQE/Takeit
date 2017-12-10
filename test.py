@@ -216,7 +216,6 @@ class Tests(unittest.TestCase):
     def test_signup_fail(self):
         rv = self.signup('123@123.com', 'qwer1234', '123')
         self.assertEqual(rv.status_code, 200)
-        print rv.data
 
     def test_home_no_session(self):
         rv = self.app.get('/home', follow_redirects=True)
@@ -300,12 +299,12 @@ class Tests(unittest.TestCase):
         rv = self.app.get('/profile/1', follow_redirects=True)
         self.assertIn(b'20 Da', rv.data)
 
-    def test_add_friend_no_session(self):
+    def test_search_friend_no_session(self):
         rv = self.app.get('/add_friend', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
-    def test_add_friend_yes(self):
+    def test_search_friend_yes(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.post('/add_friend', data=dict(
@@ -314,7 +313,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'Li Hongzhi', rv.data)
 
-    def test_add_friend_no(self):
+    def test_search_friend_no(self):
         rv = self.login('haha@zhangzhe.wang', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.post('/add_friend', data=dict(
