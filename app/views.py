@@ -152,7 +152,7 @@ def add(userid):
         return redirect('/login')
     if User(session['userid']).follow(userid):
         return redirect('/show_friends')
-    return redirect('/add/%d' % userid)
+    return redirect('/home')
 
 
 @app.route('/show_friends')
