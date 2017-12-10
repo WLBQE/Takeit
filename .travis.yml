@@ -12,8 +12,8 @@ install:
 
 before_install:
 #  - mysql -e 'CREATE DATABASE IF NOT EXISTS DB;'
-  - mysql -u root create.sql
-  - mysql -u root fake_data.sql
+  - mysql -u root < create.sql
+  - mysql -u root < fake_data.sql
 script:
 #  pytest
 
