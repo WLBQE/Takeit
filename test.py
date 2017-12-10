@@ -367,6 +367,13 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'hahaha', rv.data)
 
+    def test_change_profile(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.get('/change_profile')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'Change Avatar Picture', rv.data)
+
 
 if __name__ == "__main__":
     log_file = 'test_log.txt'
