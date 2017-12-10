@@ -204,6 +204,11 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
+    def test_logout_no_session(self):
+        rv = self.app.get('/logout', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+
     def test_signup_get(self):
         rv = self.app.get('/signup')
         self.assertEqual(rv.status_code, 200)
@@ -275,12 +280,29 @@ class Tests(unittest.TestCase):
         rv = self.app.get('/profile/100', follow_redirects=True)
         self.assertEqual(rv.status_code, 404)
 
+    def test_profile_just_for_coverage(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'8964', rv.data)
+        rv = self.create_event('20 Da', '2018-01-01 00:00', '2018-01-01 23:59', 'somewhere', 'something')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'somewhere', rv.data)
+        rv = self.app.get('/logout', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'sign in', rv.data)
+        rv = self.login('haha@zhangzhe.wang', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'20 Da', rv.data)
+        rv = self.app.get('/register/4', follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'20 Da', rv.data)
+
     def test_register_no_session(self):
         rv = self.app.get('/register/2', follow_redirects=True)
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'sign in', rv.data)
 
-    def test_register_invalidid(self):
+    def test_register_invalid_id(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
         rv = self.app.get('/register/100', follow_redirects=True)
@@ -388,6 +410,15 @@ class Tests(unittest.TestCase):
         self.assertEqual(rv.status_code, 200)
         self.assertIn(b'hahaha', rv.data)
 
+    def test_add_comment_null(self):
+        rv = self.login('xjp@ccp.gov', 'qwer1234')
+        self.assertEqual(rv.status_code, 200)
+        rv = self.app.post('/add_comment/1', data=dict(
+            comment=''
+        ), follow_redirects=True)
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn(b'19 Da', rv.data)
+
     def test_change_profile(self):
         rv = self.login('xjp@ccp.gov', 'qwer1234')
         self.assertEqual(rv.status_code, 200)
@@ -401,4 +432,3 @@ if __name__ == "__main__":
     f = open(log_file, 'w')
     runner = unittest.TextTestRunner(f)
     unittest.main(testRunner=runner)
-    f.close()
