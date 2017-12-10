@@ -17,6 +17,7 @@ install:
 script:
 #  pytest
 
-#  coverage run --branch test.py
+  coverage run --branch test.py
+  cat test_log.txt
+  coverage report -m
 #  - echo "NO SCRIPY 2 RUN"
-  prospector
