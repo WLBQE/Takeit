@@ -11,9 +11,9 @@ install:
   - pip install coveralls
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS DB;'
-  - mysql -u root DB < create.sql
-  - mysql -u root DB < fake_data.sql
+#  - mysql -e 'CREATE DATABASE IF NOT EXISTS DB;'
+  - mysql -u root --password='' < create.sql
+  - mysql -u root --password='' < fake_data.sql
 script:
 #  pytest
 
