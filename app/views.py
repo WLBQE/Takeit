@@ -146,13 +146,13 @@ def add_friend():
     return render_template('add_friend.html', userlist=userlist, user=userid, username=session['username'])
 
 
-@app.route('/add/<string:userid>')
+@app.route('/add/<int:userid>')
 def add(userid):
     if 'userid' not in session:
         return redirect('/login')
     if User(session['userid']).follow(userid) is False:
         return redirect('/add/%d' % userid)
-    return redirect('/show_friends/%d' % session['userid'])
+    return redirect('/show_friends')
 
 
 @app.route('/show_friends')
