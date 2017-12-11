@@ -40,11 +40,11 @@
 
                             <div class="caption">
                                 <h3>{{ item[1] }}</h3>
-                                <p>{{ item[2] }}</p>
-                                <p>{{ item[3] }}</p>
-                                <p>{{ item[4] }}</p>
-                                <p>{{ item[5] }}</p>
-                                <p>{{ creators[ item[6]] }}</p>
+                                <p>StartTime: {{ item[2] }}</p>
+{#                                <p>{{ item[3] }}</p>#}
+                                <p>Location: {{ item[4] }}</p>
+{#                                <p>{{ item[5] }}</p>#}
+                                <p>Creator: {{ creators[ item[6]] }}</p>
                                 <button class="btn btn-default" type="button"
                                         onclick="window.location.href='{{ url_for( 'event_detail', eventid = item[0] ) }}';">
                                     Event Detail
