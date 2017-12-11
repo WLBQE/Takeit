@@ -4,7 +4,7 @@ from .forms import LoginForm, RegisterForm, EventDetailForm
 from .models import User, Event
 import os
 from pprint import pprint
-
+from PIL import Image
 
 
 @app.route('/home')
@@ -14,6 +14,14 @@ def home():
         events = User(userid).get_following_events()
         creator_name_list = {}
         # print os.listdir("app/static/user_picture")
+
+        events = list(events)
+        for i in range(len(events)):
+            if os.path.isfile('app/static/event_picture/' + str(events[i][0]) + '.png'):
+                events[i] += (1,)
+            else:
+                events[i] += (0,)
+
         for e in events:
             creator_id = e[6]
             if creator_id not in creator_name_list:
@@ -71,6 +79,22 @@ def profile(userid):
         return abort(404)
     events_created = User(userid).get_events_created()
     events_participated = User(userid).get_events_participated()
+
+    events_created = list(events_created)
+    for i in range(len(events_created)):
+        if os.path.isfile('app/static/event_picture/' + str(events_created[i][0]) + '.png'):
+            events_created[i] += (1,)
+        else:
+            events_created[i] += (0,)
+
+        events_participated = list(events_participated)
+    for i in range(len(events_participated)):
+        if os.path.isfile('app/static/event_picture/' + str(events_participated[i][0]) + '.png'):
+            events_participated[i] += (1,)
+        else:
+            events_participated[i] += (0,)
+
+
     creator_name_list = {}
     for e in events_participated:
         creator_id = e[6]
@@ -128,13 +152,48 @@ def create_event():
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
         # TODO: cannot upload
-        # if request.files:
-        #     file = request.files['file']
-        #     if file:
-        #         splitlist = file.filename.split('.')
-        #         file_format = splitlist[-1]
-        #         file.filename = str(eventid) + '.' + file_format
-        #         file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+        if request.files:
+            file = request.files['file']
+
+
+
+            if file:
+
+
+                # thumb.save('thumb.jpg')
+
+
+
+
+                splitlist = file.filename.split('.')
+                file_format = splitlist[-1]
+                filename = str(eventid) + '.' + file_format
+
+                image = Image.open(file)
+                width = image.size[0]
+                height = image.size[1]
+
+                aspect = width / float(height)
+
+                ideal_width = 340
+                ideal_height = 169
+
+                ideal_aspect = ideal_width / float(ideal_height)
+
+                if aspect > ideal_aspect:
+                    # Then crop the left and right edges:
+                    new_width = int(ideal_aspect * height)
+                    offset = (width - new_width) / 2
+                    resize = (offset, 0, width - offset, height)
+                else:
+                    # ... crop the top and bottom:
+                    new_height = int(width / ideal_aspect)
+                    offset = (height - new_height) / 2
+                    resize = (0, offset, width, height - offset)
+
+                file = image.crop(resize).resize((ideal_width, ideal_height), Image.ANTIALIAS)
+
+                file.save(os.path.join(app.config['EVENT_PICTURE'], filename))
         return redirect('/profile/%d' % session['userid'])
 
     return render_template('create_event.html', form=form, user=userid, username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )

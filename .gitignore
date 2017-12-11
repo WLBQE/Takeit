@@ -8,6 +8,6 @@ git.zsh
 test_log.txt
 app/static/event_picture/*
 app/static/user_picture/*
-!app/static/event_picture/default_cover_picture.png
+!app/static/event_picture/default_event.png
 !app/static/user_picture/default_avatar.png
 htmlcov/
