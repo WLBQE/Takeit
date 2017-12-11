@@ -41,12 +41,12 @@
             <p>{{ event[2] }} and {{ event[4] }}</p>
 
             <hr>
-            <small>{{ event[5] }}</small>
+            <p>{{ event[5] }}</p>
             <br><br><br><br><br><br><br><br><br><br><br>
 
-
+            <hr>
             {% if participants %}
-                <p>Following are participants</p>
+                <h4>Following are participants</h4>
                 {% for item in participants -%}
                     <small>{{ item[1] }}</small>
                     <br>
