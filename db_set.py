@@ -14,4 +14,4 @@ def run_sql_file(filename):
 
 if __name__ == '__main__':
     run_sql_file('create.sql')
-    run_sql_file('fake_data.sql')
+    run_sql_file('newdata.sql')
