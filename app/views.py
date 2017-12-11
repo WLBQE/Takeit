@@ -87,13 +87,12 @@ def profile(userid):
         else:
             events_created[i] += (0,)
 
-        events_participated = list(events_participated)
+    events_participated = list(events_participated)
     for i in range(len(events_participated)):
         if os.path.isfile('app/static/event_picture/' + str(events_participated[i][0]) + '.png'):
             events_participated[i] += (1,)
         else:
             events_participated[i] += (0,)
-
 
     creator_name_list = {}
     for e in events_participated:
@@ -151,20 +150,9 @@ def create_event():
         end_time = form.end_date.data
         eventid = Event().create(session['userid'], form.name.data, form.description.data, form.location.data,
                                  start_time, end_time)
-        # TODO: cannot upload
         if request.files:
             file = request.files['file']
-
-
-
             if file:
-
-
-                # thumb.save('thumb.jpg')
-
-
-
-
                 splitlist = file.filename.split('.')
                 file_format = splitlist[-1]
                 filename = str(eventid) + '.' + file_format
