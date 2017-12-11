@@ -110,7 +110,16 @@
                         <div class="media">
                             {#       <p class="pull-right"><small>5 days ago</small></p>#}
                             <a class="media-left" href="#">
-                                <img src="http://lorempixel.com/40/40/people/1/">
+{#                                <img src="{{url_for('static', filename='user_picture/' + item[0]|string + '.png'| default('default_avatar.png'))}}" width=40, height=40 >#}
+
+                                                        {% if item[3] %}
+                    <img src="{{url_for('static', filename='user_picture/' + item[0]|string + '.png'| default('default_avatar.png'))}}" width=50, height=50 >
+                            {% else %}
+                    <img src="{{url_for('static', filename='user_picture/default_avatar.png'| default('default_avatar.png'))}}" width=50, height=50 >
+
+    {% endif %}
+
+
                             </a>
                             <div class="media-body">
 
