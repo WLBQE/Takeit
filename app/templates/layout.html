@@ -27,7 +27,14 @@
             {% block active %}
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><img src="../static/user_picture/default_avatar.png"></li>
+{#                    <li><img src="../static/user_picture/{{ user | default('default_avatar') }}.png" width="50" height="50" /></li>#}
+                        {% if avatarin %}
+                    <li> <img src="{{url_for('static', filename='user_picture/' + user|string + '.png'| default('default_avatar.png'))}}" width=50, height=50 ></li>
+                            {% else %}
+                    <li> <img src="{{url_for('static', filename='user_picture/default_avatar.png'| default('default_avatar.png'))}}" width=50, height=50 ></li>
+
+    {% endif %}
+
                     <li><a href={{ url_for('change_profile') }}>{{ username }}</a></li>
                     <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
                     </li>
