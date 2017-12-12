@@ -165,8 +165,8 @@ def create_event():
 
                 aspect = width / float(height)
 
-                ideal_width = 340
-                ideal_height = 169
+                ideal_width = 800
+                ideal_height = 400
 
                 ideal_aspect = ideal_width / float(ideal_height)
 
