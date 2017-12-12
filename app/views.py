@@ -13,7 +13,6 @@ def home():
         userid = session['userid']
         events = User(userid).get_following_events()
         creator_name_list = {}
-        # print os.listdir("app/static/user_picture")
 
         events = list(events)
         for i in range(len(events)):
@@ -125,6 +124,7 @@ def event_detail(eventid):
     if event is None:
         return abort(404)
     registered = User(session['userid']).check_register(event[0])
+    creator = User(event[6]).find()
     participants = Event(eventid).get_participants()
     comments = Event(eventid).get_comments()
     comments = list(comments)
@@ -135,7 +135,8 @@ def event_detail(eventid):
             comments[i] += (0,)
 
     return render_template('event_detail.html', event=event, user=session['userid'], username=session['username'],
-                           participants=participants, registered=registered, comments=comments, avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
+                           participants=participants, registered=registered, comments=comments, creator=creator[1],
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
 
 
 @app.route('/create_event', methods=['GET', 'POST'])
@@ -226,9 +227,6 @@ def show_friends():
 @app.route('/change_profile', methods=['GET', 'POST'])
 def change_profile():
     userid = session['userid']
-    # picture = request.files['picture']
-    # if picture:
-    #     picture.save(os.path.join(app.config['UPLOAD_FOLDER'], picture.filename))
     return render_template('change_profile.html', user=userid, username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
 
 
@@ -254,12 +252,5 @@ def really_change():
             file_format = splitlist[-1]
             file.filename = str(userid) + '.' + file_format
             file.save(os.path.join(app.config['USER_PICTURE'], file.filename))
-    return render_template('change_profile.html', user=userid, username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
-
-    # if request.files:
-    #     file = request.files['file']
-    #     if file:
-    #         splitlist = file.filename.split('.')
-    #         file_format = splitlist[-1]
-    #         file.filename = str(eventid) + '.' + file_format
-    #         file.save(os.path.join(app.config['EVENT_PICTURE'], file.filename))
+    return render_template('change_profile.html', user=userid, username=session['username'],
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
