@@ -102,7 +102,8 @@ def profile(userid):
 
     return render_template('profile.html', current_user=session['userid'], user_profile=user,
                            event_created=events_created, events_participated=events_participated,
-                           creators=creator_name_list, user=session['userid'], username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(session['userid'])+'.png') )
+                           creators=creator_name_list, user=session['userid'], username=session['username'],
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(session['userid'])+'.png') )
 
 
 @app.route('/register/<int:eventid>')

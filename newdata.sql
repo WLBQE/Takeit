@@ -12,9 +12,9 @@ INSERT INTO Users (email, password, username)
   VALUES ('larrypage@google.com', '$2b$12$gR3xq9z5ykSaJa3OFT0YEegTmrlXsZX8zdDxo/rj2G5RpcpaTA3nm', 'Larry Page'); -- 5
 
 INSERT INTO Events (name, start_time, end_time, location, description, creator)
-    VALUES ('New Wechat Announcement', '2018-01-01 12:00', '2018-01-01 13:00', 'Tencent Tower', 'Download the most popular instant messenger now!', 1); -- 1
+    VALUES ('Wechat Announcement', '2018-01-01 12:00', '2018-01-01 13:00', 'Tencent Tower', 'Download the most popular instant messenger now!', 1); -- 1
 INSERT INTO Events (name, start_time, end_time, location, description, creator)
-    VALUES ('Celebration for Top 10 Stock Value worldwide', '2018-02-01 12:00', '2018-02-01 13:00', 'Shenzhen', 'We are now one of the Top 10 Tech Companies in the world!', 1); -- 2
+    VALUES ('Grand Celebration', '2018-02-01 12:00', '2018-02-01 13:00', 'Shenzhen', 'We are now one of the Top 10 Tech Companies in the world!', 1); -- 2
 INSERT INTO Events (name, start_time, end_time, location, description, creator)
     VALUES ('Double 11 Big Sale', '2018-11-11 00:00', '2018-11-11 23:59', 'Tmall & Taobao', 'Over 253 billion RMB sales last year! Go shopping in Tmall & Taobao!', 2); -- 3
 INSERT INTO Events (name, start_time, end_time, location, description, creator)

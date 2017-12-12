@@ -19,7 +19,7 @@
                 <button class="btn btn-primary pull-right" type="button" disabled="disabled">Registered</button>
             {% else %}
                 <button class="btn btn-default pull-right" type="button"
-                        onclick="window.location.href='{{ url_for( 'register', eventid = event[0] ) }}';">Register
+                        onclick="window.location.href='{{ url_for('register', eventid= event[0] ) }}';">Register
                 </button>
             {% endif %}
             <p>{{ event[2] }} at {{ event[4] }}</p>
@@ -29,10 +29,9 @@
             <br><br><br><br><br>
             <hr>
             {% if participants %}
-                <h4>Following are participants</h4>
+                <h4>Participants</h4>
                 {% for item in participants -%}
-                    <p>{{ item[1] }}</p>
-                    <br>
+                    <p><a href="{{ url_for('profile', userid=item[0] }}">{{ item[1] }}</a></p>
                 {%- endfor %}
             {% else %}
                 <p>No participants yet</p>
