@@ -2,26 +2,17 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
-    Demo App
+    Change Profile
 {% endblock %}
-
 
 {% block styles %}
     {{ super() }}
-
     <link rel="stylesheet" href="{{ url_for('.static', filename='starter-template.css') }}">
     <link rel="stylesheet" href="{{ url_for('.static', filename='change_profile.css') }}">
     <script type="text/javascript" src="{{ url_for("static",filename="change_profile.js") }}" charset="UTF-8"></script>
-
 {% endblock %}
 
-
-
-
-
 {% block content %}
-
-
     <div class="container">
         <div class="starter-template">
             <h1>Change Avatar Picture</h1>
@@ -30,7 +21,6 @@
             <br>
             <input type="file" id="uploadedFile" onchange="doAnalysis()">
             <div id="file_display"></div>
-
         </div>
     </div><!-- /.container -->
 
