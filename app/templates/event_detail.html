@@ -22,7 +22,7 @@
                         onclick="window.location.href='{{ url_for('register', eventid= event[0] ) }}';">Register
                 </button>
             {% endif %}
-            <p>{{ event[2] }} at {{ event[4] }}</p>
+            <p>{{ event[2] }} to {{ event[3] }} @ {{ event[4] }}</p>
             <p>Created by {{ creator }}</p>
             <hr>
             <p>{{ event[5] }}</p>
