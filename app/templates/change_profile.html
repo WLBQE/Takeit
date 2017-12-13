@@ -40,7 +40,6 @@
             xhr.open("POST", url, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    {#            xhr.responseText#}
                     alert('Uploaded Successfully');
                 } else {
                     alert('An error occurred, upload failed!');
