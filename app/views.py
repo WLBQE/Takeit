@@ -26,8 +26,8 @@ def home():
             if creator_id not in creator_name_list:
                 creator = User(creator_id).find()
                 creator_name_list[creator_id] = creator[1]
-        return render_template('home.html', user=userid, username=session['username'], event_list=events,
-                               creators=creator_name_list, avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
+        return render_template('home.html', user=userid, username=session['username'], event_list=events, creators=creator_name_list,
+                               avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
     return redirect('/login')
 
 
@@ -103,7 +103,7 @@ def profile(userid):
     return render_template('profile.html', current_user=session['userid'], user_profile=user,
                            event_created=events_created, events_participated=events_participated,
                            creators=creator_name_list, user=session['userid'], username=session['username'],
-                           avatarin=os.path.isfile('app/static/user_picture/'+str(session['userid'])+'.png') )
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(session['userid'])+'.png'))
 
 
 @app.route('/register/<int:eventid>')
@@ -155,9 +155,7 @@ def create_event():
         if request.files:
             file = request.files['file']
             if file:
-                splitlist = file.filename.split('.')
-                file_format = splitlist[-1]
-                filename = str(eventid) + '.' + file_format
+                filename = str(eventid) + '.png'
 
                 image = Image.open(file)
                 width = image.size[0]
@@ -186,7 +184,8 @@ def create_event():
                 file.save(os.path.join(app.config['EVENT_PICTURE'], filename))
         return redirect('/profile/%d' % session['userid'])
 
-    return render_template('create_event.html', form=form, user=userid, username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
+    return render_template('create_event.html', form=form, user=userid, username=session['username'],
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
 
 
 @app.route('/add_friend', methods=['GET', 'POST'])
@@ -202,7 +201,8 @@ def add_friend():
             userlist[i] += (1,)
         else:
             userlist[i] += (0,)
-    return render_template('add_friend.html', userlist=userlist, user=userid, username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
+    return render_template('add_friend.html', userlist=userlist, user=userid, username=session['username'],
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
 
 
 @app.route('/add/<int:userid>')
@@ -222,13 +222,14 @@ def show_friends():
     followers = User(userid).get_followers()
     followings = User(userid).get_followings()
     return render_template('show_friends.html', followers=followers, followings=followings, user=userid,
-                           username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
+                           username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
 
 
 @app.route('/change_profile', methods=['GET', 'POST'])
 def change_profile():
     userid = session['userid']
-    return render_template('change_profile.html', user=userid, username=session['username'], avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png') )
+    return render_template('change_profile.html', user=userid, username=session['username'],
+                           avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
 
 
 @app.route('/add_comment/<int:eventid>', methods=['GET', 'POST'])
@@ -249,9 +250,7 @@ def really_change():
         file = request.files['file']
         pprint(request.files)
         if file:
-            splitlist = file.filename.split('.')
-            file_format = splitlist[-1]
-            file.filename = str(userid) + '.' + file_format
+            file.filename = str(userid) + '.png'
             file.save(os.path.join(app.config['USER_PICTURE'], file.filename))
     return render_template('change_profile.html', user=userid, username=session['username'],
                            avatarin=os.path.isfile('app/static/user_picture/'+str(userid)+'.png'))
